@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RecommendationEngine
 {
@@ -20,18 +21,12 @@ namespace RecommendationEngine
         bool ExpandCluster(Point point, int ClusterID)
         {
             List<Point> epsilonNeighborhood = new List<Point>();
+
             List<Point> findNeighborsOf(Point queryPoint)
             {
-                List<Point> tempList = new List<Point>();
-                foreach (Point currentPoint in this.points)
-                {
-                    if (distCalc(queryPoint.Value, currentPoint.Value) <= this.epsilon)
-                    {
-                        tempList.Add(currentPoint);
-                    }
-                }
-                return tempList;
+                return this.points.Where(currentPoint => distCalc(queryPoint.Value, currentPoint.Value) <= this.epsilon).ToList();
             }
+
             epsilonNeighborhood = findNeighborsOf(point);
 
             if (epsilonNeighborhood.Count < this.minNeighbor)
@@ -41,7 +36,7 @@ namespace RecommendationEngine
             }
             else
             {
-                foreach (Point nPoint in this.points)
+                foreach (Point nPoint in epsilonNeighborhood)
                 {
                     nPoint.clID = ClusterID;
                 }
@@ -52,15 +47,25 @@ namespace RecommendationEngine
                     List<Point> result = findNeighborsOf(currentPoint);
                     if (result.Count >= this.minNeighbor)
                     {
+                        Point currentResult = result[0];
 
+                        switch (currentResult.clID)
+                        {
+                            case null:
+                                currentResult.clID = ClusterID;
+                                epsilonNeighborhood.Add(currentResult);
+
+                                break;
+                            case 0:
+                                break;
+                            default:
+                                break;
+                        }
                     }
+                    epsilonNeighborhood.Remove(currentPoint);
                 }
                 return true;
             }
-
-
-
-
         }
         private void GetCores()
         {
@@ -77,7 +82,5 @@ namespace RecommendationEngine
                 }
             }
         }
-
-
     }
 }
