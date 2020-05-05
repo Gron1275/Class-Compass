@@ -16,19 +16,16 @@ namespace RecommendationEngine
             this.epsilon = inputEpsilon;
             this.minNeighbor = inputMinNeighbor;
         }
-        double distCalc(double x1, double x2) => Math.Sqrt(Math.Pow((x1 - x2), 2)); //Currently only accounts for scalars, cant do matrices yet
-
+        double DistCalc(double x1, double x2) => Math.Sqrt(Math.Pow((x1 - x2), 2)); //Currently only accounts for scalars, cant do matrices yet
         bool ExpandCluster(Point point, int ClusterID)
         {
             List<Point> epsilonNeighborhood = new List<Point>();
 
             List<Point> findNeighborsOf(Point queryPoint)
             {
-                return this.points.Where(currentPoint => distCalc(queryPoint.Value, currentPoint.Value) <= this.epsilon).ToList();
+                return this.points.Where(currentPoint => DistCalc(queryPoint.Value, currentPoint.Value) <= this.epsilon).ToList();
             }
-
             epsilonNeighborhood = findNeighborsOf(point);
-
             if (epsilonNeighborhood.Count < this.minNeighbor)
             {
                 point.pointType = PointType.noise;
