@@ -23,8 +23,9 @@ namespace RecommendationEngine
 
             List<Point> findNeighborsOf(Point queryPoint)
             {
-                return this.points.Where(currentPoint => DistCalc(queryPoint.Value, currentPoint.Value) <= this.epsilon).ToList();
+                return this.points.Where(currentPoint => distCalc(queryPoint.Value, currentPoint.Value) <= this.epsilon).ToList();
             }
+
             epsilonNeighborhood = findNeighborsOf(point);
             if (epsilonNeighborhood.Count < this.minNeighbor)
             {
@@ -51,6 +52,7 @@ namespace RecommendationEngine
                             case null:
                                 currentResult.clID = ClusterID;
                                 epsilonNeighborhood.Add(currentResult);
+
                                 break;
                             case 0:
                                 break;
