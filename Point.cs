@@ -3,7 +3,7 @@ namespace RecommendationEngine
     public class Point
     {
 
-        public double Value { get; set; }
+        public double Value { get; set; } //Could make this a vector w/ all the diff grades & classes
         public int? clID;
         public PointType? pointType;
         private double value;
