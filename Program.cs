@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RecommendationEngine
 {
@@ -12,6 +13,7 @@ namespace RecommendationEngine
             //Matrix classData = GetClassData("filepath to class.csv");
 
             Vector userData = new Vector(GetUserData("sampleUser.csv"));
+            List<Point> userDatabase = new List<Point>();
             //Matrix classData = new Matrix(new int[,] { { 0, 1, 0, 1, 1 },
             //                                           { 1, 1, 0, 0, 0 },
             //                                           { 0, 0, 1, 1, 0 }

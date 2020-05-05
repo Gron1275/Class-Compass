@@ -11,20 +11,20 @@
         private int columns;
         public Matrix(int xDimension, int yDimension)//Creating an empty matrix of (m, n) size
         {
-            matrix = new int[xDimension, yDimension];
-            rows = GetRows();//Accesses the internal "GetRows()" method for the private matrix array
-            columns = GetColumns();//Same as above but for the columns
+            this.matrix = new int[xDimension, yDimension];
+            this.rows = this.GetRows();//Accesses the internal "GetRows()" method for the private matrix array
+            this.columns = this.GetColumns();//Same as above but for the columns
         }
         public Matrix(int[,] entries)//Creating a matrix given an array of integers
         {
-            rows = GetRows(entries);//This is the method for the external getRows of something unknown to the object instance
-            columns = GetColumns(entries);//Same as above but for the columns
-            matrix = new int[rows, columns];
-            for (int i = 0; i < rows; i++)
+            this.rows = this.GetRows(entries);//This is the method for the external getRows of something unknown to the object instance
+            this.columns = this.GetColumns(entries);//Same as above but for the columns
+            this.matrix = new int[this.rows, this.columns];
+            for (int i = 0; i < this.rows; i++)
             {
-                for (int j = 0; j < columns; j++)
+                for (int j = 0; j < this.columns; j++)
                 {
-                    matrix[i, j] = entries[i, j];//Copy contents of array into the matrix object
+                    this.matrix[i, j] = entries[i, j];//Copy contents of array into the matrix object
                 }
             }
         }
@@ -34,17 +34,17 @@
         }
         public int this[int Xindex, int Yindex]
         {
-            get => matrix[Xindex, Yindex];//Not in standard { get; set; } form b/c I might alter index protection
-            set => matrix[Xindex, Yindex] = value;
+            get => this.matrix[Xindex, Yindex];//Not in standard { get; set; } form b/c I might alter index protection
+            set => this.matrix[Xindex, Yindex] = value;
         }
         public Matrix Transpose()
         {
-            Matrix transposedMatrix = new Matrix(columns, rows);//For a matrix of dimensions (m, n), create matrix of dimensions (n, m)
-            for (int i = 0; i < rows; i++) //Iterator for the rows of the matrix
+            Matrix transposedMatrix = new Matrix(this.columns, this.rows);//For a matrix of dimensions (m, n), create matrix of dimensions (n, m)
+            for (int i = 0; i < this.rows; i++) //Iterator for the rows of the matrix
             {
-                for (int j = 0; j < columns; j++)// Iterator for the cio
+                for (int j = 0; j < this.columns; j++)// Iterator for the cio
                 {
-                    transposedMatrix[j, i] = matrix[i, j];//"Swap" values to change matrix shape from (m, n) to (n, m)
+                    transposedMatrix[j, i] = this.matrix[i, j];//"Swap" values to change matrix shape from (m, n) to (n, m)
                 }
             }
             return transposedMatrix;
@@ -53,14 +53,14 @@
         {
             int sigma = 0; //Used in finding summation (sigma) of each row
 
-            Vector final = new Vector(rows);//Create a vector in which you can store the values
+            Vector final = new Vector(this.rows);//Create a vector in which you can store the values
 
             // Now that the data matrix is transposed to be the shape of the vector, we can find the dot product
-            for (int i = 0; i < columns; i++)
+            for (int i = 0; i < this.columns; i++)
             {
-                for (int j = 0; j < rows; j++)
+                for (int j = 0; j < this.rows; j++)
                 {
-                    sigma += inVector[j, 0] * matrix[j, i]; //Summation of the product of n row of vector and nsubm row of matrix
+                    sigma += inVector[j, 0] * this.matrix[j, i]; //Summation of the product of n row of vector and nsubm row of matrix
                 }
                 final[i, 0] = sigma;
                 sigma = 0;//Reset the summation for every new row
@@ -71,8 +71,8 @@
         {
             return 0.0;
         }
-        public int GetColumns() => matrix.Length / matrix.GetLength(0); //Divid the total amt of elements by a column length to get row length
-        public int GetRows() => matrix.GetLength(0);
+        public int GetColumns() => this.matrix.Length / this.matrix.GetLength(0); //Divid the total amt of elements by a column length to get row length
+        public int GetRows() => this.matrix.GetLength(0);
         public int GetColumns(int[,] input)//same as get columns but used for input
         {
             return input.Length / input.GetLength(0);
