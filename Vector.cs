@@ -8,9 +8,16 @@ namespace RecommendationEngine
         //</summary>
         private int[,] vectorArray;
 
-        public Vector(int dimensions)//Initialize empty vector of dimension (m,1)
+        public Vector(int dimensions, string plane="vertical")//Initialize empty vector of dimension (m,1)
         {
-            vectorArray = new int[dimensions, 1];
+            if (plane == "vertical")
+            {
+                this.vectorArray = new int[dimensions, 1];
+            }
+            else
+            {
+                this.vectorArray = new int[1, dimensions];
+            }
         }
         public Vector(int[,] entries)//Intialize vector comprised of an inputted 2d integer array
         {

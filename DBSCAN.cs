@@ -9,8 +9,9 @@ namespace RecommendationEngine
         private double epsilon;
         private int minNeighbor;
         private List<Point> points;
+        private bool getCoresRun = false;
 
-        public DBSCAN(List<Point> inputDataset, int inputEpsilon, int inputMinNeighbor, string inMetric = "Euclidean")
+        public DBSCAN(List<Point> inputDataset, double inputEpsilon, int inputMinNeighbor, string inMetric = "Euclidean")
         {
             this.points = inputDataset;
             this.epsilon = inputEpsilon;
@@ -18,7 +19,7 @@ namespace RecommendationEngine
             GetCores();
         }
         double DistCalc(double x1, double x2) => Math.Sqrt(Math.Pow((x1 - x2), 2)); //Currently only accounts for scalars, cant do matrices yet
-        bool ExpandCluster(Point point, int ClusterID)
+        bool ExpandCluster(ref Point point, int ClusterID)
         {
             List<Point> epsilonNeighborhood = new List<Point>();
 
@@ -67,17 +68,33 @@ namespace RecommendationEngine
         private void GetCores()
         {
             int ClusterID = 0;
-            for (int i = 0; i < points.Count; i++)
+            for (int i = 0; i < this.points.Count; i++)
             {
-                Point currentPoint = points[i];
+                Point currentPoint = this.points[i];
                 if (currentPoint.clID == null)
                 {
-                    if (ExpandCluster(currentPoint, ClusterID) == true)
+                    if (ExpandCluster(ref currentPoint, ClusterID) == true) //IDK if ref is necessary, I need to make sure value of point is changed 
+                                                                            //and the change is present in the this.points
                     {
                         ClusterID += 1;
                     }
                 }
             }
+            this.getCoresRun = true;
+        }
+        public List<Point> ReturnClusteredPoints()
+        {
+            if (this.getCoresRun == true)
+            {
+                return this.points;
+            }
+            else
+            {
+                System.Console.WriteLine("Points are currently unclustered");
+                List<Point> nullList = new List<Point>();
+                return nullList;
+            }
+            
         }
     }
 }

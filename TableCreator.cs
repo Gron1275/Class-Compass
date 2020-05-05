@@ -1,46 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Data;
+using System.Collections.Generic;
 
 namespace RecommendationEngine
 {
-    class Program
+    class TableCreator
     {
-
-        static void Main(string[] args)
+        public TableCreator()
         {
-            //Vector userData = GetUserData("filepath to user.csv");
-            //Matrix classData = GetClassData("filepath to class.csv");
-
-            //Vector userData = new Vector(GetUserData("sampleUser.csv"));
-            //List<Point> userDatabase = new List<Point>();
-            //DBSCAN dbscan = new DBSCAN(userDatabase, 0.4, 5);
-            //Matrix classData = new Matrix(new int[,] { { 0, 1, 0, 1, 1 },
-            //                                           { 1, 1, 0, 0, 0 },
-            //                                           { 0, 0, 1, 1, 0 }
-            //                               });
-            //Matrix classData = new Matrix(GetClassData("sampleClasses.csv"));
-            //RecEngine recommender = new RecEngine(userData, classData);
-            //recommender.ShowRecs();
-            //Console.ReadKey();
-            TableCreator tableCreator = new TableCreator();
-            List<Point> StudentPointList = tableCreator.GenerateStudentPointList("placeholder");
-            DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.4, inputMinNeighbor: 5);
-            List<Point> clusteredPoints = dbScan.ReturnClusteredPoints();
+            
         }
-        static int[,] GetUserData(string filePath)
-        {
-            //Access csv file that has been downloaded from google forms
-            int[,] placeholder = new int[1, 9];
-            return placeholder;
-        }
-        static int[,] GetClassData(string filePath)
-        {
-            //Access csv file that stores the tags for each class
-            int[,] placeholder = new int[4, 9];
-            return placeholder;
-        }
-        static List<Point> LoadStudentDatabase(string filePath)
+        public List<Point> GenerateStudentPointList(string filePath)
         {
             DataTable uncircData = new DataTable("RawData");
             DataColumn dataColumn;
@@ -59,6 +29,10 @@ namespace RecommendationEngine
             dataColumn.AutoIncrement = true;
             dataColumn.Caption = "Classes taken by student";
             uncircData.Columns.Add(dataColumn);
+
+            DataColumn[] primaryKey = new DataColumn[1];
+            primaryKey[0] = uncircData.Columns["studID"];
+            uncircData.PrimaryKey = primaryKey;
             /*
             dataRow = uncircData.NewRow(); //Might be an issue: classes like english 11 will be 
                                             //taken by everyone and will therefore be high on the 
@@ -92,28 +66,26 @@ namespace RecommendationEngine
                     uncircData.Rows.Add(dataRow);
                 }
             }
-            /*
-            Point MakePoint()
+            List<Point> stPointList = new List<Point>();
+            Point MakePoint(int studentID)
             {
-
+                Point studentPoint = new Point();
+                DataRow studentRow = uncircData.Rows.Find(studentID);
+                if (studentRow != null)
+                {
+                    Dictionary<string, double> preProcessedMatrix = (Dictionary<string, double>)studentRow[1];
+                    
+                    foreach (KeyValuePair<string, double> entry in preProcessedMatrix)
+                    {
+                        var placeholder = entry.Value;
+                    }
+                }
+                return studentPoint; //This is incomplete, doesn't actually work yet
+                
             }
-            */
-            List<Point> name = new List<Point>();
+            stPointList.Add(MakePoint(1));
 
-            return name;
+            return stPointList;
         }
-        //static int[,] GetInput()           used for testing
-        //{
-        //    List<string> classes = new List<string> { "math", "science", "literature", "social studies", "technology" };
-        //    int[,] userInput = new int[5, 1];
-
-        //    for (int i = 0; i < 5; i++)
-        //    {
-        //        Console.Write($"\nRate from 1 (not interested) to 5 (very interested) how much interest you have in {classes[i]}?: ");
-
-        //        userInput[i, 0] = Convert.ToUInt16(Console.ReadLine());
-        //    }
-        //    return userInput;
-        //}
     }
 }
