@@ -27,6 +27,17 @@ namespace RecommendationEngine
             List<Point> StudentPointList = tableCreator.GenerateStudentPointList("placeholder");
             DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.4, inputMinNeighbor: 5);
             List<Point> clusteredPoints = dbScan.ReturnClusteredPoints();
+
+            List<List<Point>> listOfListOfPoints = new List<List<Point>>();
+
+            for (double epsK = 0.1; epsK < 1.0; epsK += 0.1)
+            {
+                for (int minK = 5; minK < 10; minK++)
+                {
+                    DBSCAN findValsDBSCAN = new DBSCAN(StudentPointList, epsK, minK);
+                    listOfListOfPoints.Add(findValsDBSCAN.ReturnClusteredPoints());
+                }
+            }
         }
         static int[,] GetUserData(string filePath)
         {

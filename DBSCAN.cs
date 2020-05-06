@@ -17,7 +17,6 @@ namespace RecommendationEngine
             this.epsilon = inputEpsilon;
             this.minNeighbor = inputMinNeighbor;
             GetCores();
-
         }
         double DistCalc(double x1, double x2) => Math.Sqrt(Math.Pow((x1 - x2), 2)); //Currently only accounts for scalars, cant do matrices yet
         bool ExpandCluster(ref Point point, int ClusterID)

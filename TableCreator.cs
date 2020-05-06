@@ -8,7 +8,7 @@ namespace RecommendationEngine
     {
         public TableCreator()
         {
-            
+
         }
         public List<Point> GenerateStudentPointList(string filePath)
         {
@@ -79,10 +79,16 @@ namespace RecommendationEngine
                 if (studentRow != null)
                 {
                     Dictionary<string, double> preProcessedMatrix = (Dictionary<string, double>)studentRow[1];
-                    
-                    foreach (KeyValuePair<string, double> entry in preProcessedMatrix)
+                    int numItems =  preProcessedMatrix.Count;
+                    Matrix featureMatrix = new Matrix(1, numItems);
+                    List<double> valueList = new List<double>();
+                    foreach (double entry in preProcessedMatrix.Values)
                     {
-                        var placeholder = entry.Value;
+                        valueList.Add(entry);
+                    }
+                    for (int matrixInput = 0; matrixInput < valueList.Count; matrixInput++)
+                    {
+                        featureMatrix[0, matrixInput] = valueList[matrixInput];
                     }
                 }
                 return studentPoint; //This is incomplete, doesn't actually work yet
