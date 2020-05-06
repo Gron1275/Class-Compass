@@ -16,18 +16,23 @@ namespace RecommendationEngine
             DataColumn dataColumn;
             DataRow dataRow;
 
-            dataColumn = new DataColumn();
-            dataColumn.DataType = Type.GetType("System.Int32");
-            dataColumn.ColumnName = "studID";
-            dataColumn.AutoIncrement = true;
-            dataColumn.Caption = "Student ID";
+            dataColumn = new DataColumn
+            {
+                DataType = Type.GetType("System.Int32"),
+                ColumnName = "studID",
+                AutoIncrement = true,
+                Caption = "Student ID",
+                Unique = true
+            };
             uncircData.Columns.Add(dataColumn);
 
-            dataColumn = new DataColumn();
-            dataColumn.DataType = Type.GetType("System.Collections.Generic.IDictionary<string, double>");
-            dataColumn.ColumnName = "classes";
-            dataColumn.AutoIncrement = true;
-            dataColumn.Caption = "Classes taken by student";
+            dataColumn = new DataColumn
+            {
+                DataType = Type.GetType("System.Collections.Generic.IDictionary<string, double>"),
+                ColumnName = "classes",
+                AutoIncrement = true,
+                Caption = "Classes taken by student"
+            };
             uncircData.Columns.Add(dataColumn);
 
             DataColumn[] primaryKey = new DataColumn[1];
