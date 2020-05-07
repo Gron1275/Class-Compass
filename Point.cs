@@ -5,23 +5,26 @@ namespace RecommendationEngine
     public class Point //Could substitute person for point in final
     {
 
-        public double Value { get; } //Could make this a vector w/ all the diff grades & classes
+         //Could make this (double value vafriable) a vector w/ all the diff grades & classes
         public int? clID;
         public PointType? pointType;
-        private double value;
+        public double value;
+
+        public int stID;
 
         public Matrix featMatrix;
         //For pointType, 0 will signify noise, 1 a border point, and 2 a core point
         //For clID, "n" will signify which cluster the point is in
-        Point(double inValue)
+        public Point(int inStID, double inValue)
         {
+            this.stID = inStID;
             this.value = inValue;
             this.clID = null;
             this.pointType = null;
         }
-        Point(Matrix inMatrix)
+        public Point(Matrix inMatrix)
         {
-            this.featMatrix = inMatrix;
+            this.featMatrix = inMatrix ?? throw new ArgumentNullException(nameof(inMatrix));
             this.clID = null;
             this.pointType = null;
         }

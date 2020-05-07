@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace RecommendationEngine
 {
@@ -23,12 +24,39 @@ namespace RecommendationEngine
             //RecEngine recommender = new RecEngine(userData, classData);
             //recommender.ShowRecs();
             //Console.ReadKey();
-            TableCreator tableCreator = new TableCreator();
-            List<Point> StudentPointList = tableCreator.GenerateStudentPointList("placeholder");
-            /*
-            DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.4, inputMinNeighbor: 5);
-            List<Point> clusteredPoints = dbScan.ReturnClusteredPoints();
+            //TableCreator tableCreator = new TableCreator();
+            //List<Point> StudentPointList = tableCreator.GenerateStudentPointList("placeholder");
+            Random rand = new Random();
+            List<Point> StudentPointList = new List<Point>();
 
+
+            for (int i = 0; i < 1000; i++)
+            {
+                double doubleRand = (double)rand.Next(70, 100) / 100;
+                StudentPointList.Add(new Point(i, doubleRand));
+            }
+            DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.05, inputMinNeighbor: 5);
+            //dbScan.ClusterIDChanged +=
+            List<Point> clusteredPoints = dbScan.ReturnClusteredPoints();
+            /*
+            foreach (Point point in clusteredPoints)
+            {
+                Console.WriteLine($"{point.stID} [{point.value}] : {point.clID}");
+            }\*/
+            
+            List<Point> NOISE = (clusteredPoints.Where(point1 => point1.clID == -1)).ToList();
+            foreach (var item in NOISE)
+            {
+                if (NOISE.Count != 0)
+                {
+                    Console.WriteLine("Uh oh why isn't there any noise");
+                }
+                else
+                {
+                    Console.WriteLine($"[NOISE] Student ID: {item.stID}; Value: {item.value}");
+                }
+            }
+            /*
             List<List<Point>> listOfListOfPoints = new List<List<Point>>();
 
             for (double epsK = 0.1; epsK < 1.0; epsK += 0.1)
