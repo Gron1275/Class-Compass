@@ -24,12 +24,21 @@ namespace RecommendationEngine
             this.epsilon = inputEpsilon;
             this.minNeighbor = inputMinNeighbor;
         }
+
+        /////////////////////////////////////////////////////////////////////////////////////
         public delegate void ClusterIDChangedEventHandler(object source, EventArgs args);
 
         public event ClusterIDChangedEventHandler ClusterIDChanged;
 
         protected virtual void OnClusterIDChanged() => ClusterIDChanged?.Invoke(this, EventArgs.Empty);
 
+        public delegate void DBScanFinishedEventHandler(object source, EventArgs args);
+
+        public event DBScanFinishedEventHandler DBScanFinished;
+
+        protected virtual void OnDBScanFinished() => DBScanFinished?.Invoke(this, EventArgs.Empty);
+        ////////////////////////////////////////////////////////////////////////////////////
+        
         double DistCalc(double x1, double x2) => Math.Sqrt(Math.Pow((x1 - x2), 2)); //Currently only accounts for scalars, cant do matrices yet
         bool ExpandCluster(ref Point point, int ClusterID)
         {
@@ -102,6 +111,7 @@ namespace RecommendationEngine
                     }
                 }
             }
+            OnDBScanFinished();
         }
         public List<Point> ReturnClusteredPoints()
         {
