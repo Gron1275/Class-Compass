@@ -12,6 +12,16 @@ namespace RecommendationEngine
         {
 
         }
+        /*
+        public List<Point> QuickGenerate(int numToCreate)
+        {
+            List<Point> tempList = new List<Point>();
+            for (int i = 0; i < numToCreate; i++)
+            {
+
+            }
+        }
+        */
         public List<Point> GenerateStudentPointList(string filePath)
         {
             this.uncircData = new DataTable("RawData");
@@ -31,7 +41,7 @@ namespace RecommendationEngine
             dataColumn = new DataColumn //I wanted this to be of Dict type so i could do <ClassName, Grade> but it doesn't support dict. I'm using int array for testing
             {
                 //DataType = Type.GetType("System.Collections.Generic.Dictionary<string, double>"),
-                DataType = Type.GetType("System.Int32[]"),
+                DataType = Type.GetType("System.Double[]"),
                 //DataType = Type.GetType("Dictionary<TKey, TValue>"), //This isnt working :( the type returns invalid but like, its valid???
                 ColumnName = "classes",
                 AutoIncrement = true,
@@ -82,13 +92,17 @@ namespace RecommendationEngine
                 DataRow studentRow = this.uncircData.Rows.Find(studentID);
                 if (studentRow != null)
                 {
-                    Dictionary<string, double> preProcessedMatrix = (Dictionary<string, double>)studentRow[1];
+                    //Dictionary<string, double> preProcessedMatrix = (Dictionary<string, double>)studentRow[1];
+                    double[] preProcessedArray = (double[])studentRow[1];
 
-                    int numItems = preProcessedMatrix.Count;
+                    int numItems = preProcessedArray.Length;
+                    //int numItems = preProcessedMatrix.Count;
 
                     Matrix featureMatrix = new Matrix(1, numItems);
 
-                    List<double> valueList = (preProcessedMatrix.Values).ToList();
+                    //List<double> valueList = (preProcessedMatrix.Values).ToList();
+
+                    List<double> valueList = preProcessedArray.ToList<double>();
 
                     for (int matrixInput = 0; matrixInput < valueList.Count; matrixInput++)
                     {
