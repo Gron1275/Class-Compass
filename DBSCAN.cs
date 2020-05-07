@@ -15,22 +15,18 @@ namespace RecommendationEngine
         {
             this.points = inputDataset;
             
-            Console.WriteLine($"localized point set first val {this.points[0].value}");
-            Console.WriteLine($"inputdata set first val {inputDataset[0].value}");
+            //Console.WriteLine($"localized point set first val {this.points[0].value}");
+            //Console.WriteLine($"inputdata set first val {inputDataset[0].value}");
             this.epsilon = inputEpsilon;
             this.minNeighbor = inputMinNeighbor;
             GetCores();
         }
         public delegate void ClusterIDChangedEventHandler(object source, EventArgs args);
+
         public event ClusterIDChangedEventHandler ClusterIDChanged;
 
-        protected virtual void OnClusterIDChanged()
-        {
-            if (ClusterIDChanged != null)//Delegate Invokation can be made simplified
-            {
-                ClusterIDChanged(this, EventArgs.Empty);
-            }
-        }
+        protected virtual void OnClusterIDChanged() => ClusterIDChanged?.Invoke(this, EventArgs.Empty);
+
         double DistCalc(double x1, double x2) => Math.Sqrt(Math.Pow((x1 - x2), 2)); //Currently only accounts for scalars, cant do matrices yet
         bool ExpandCluster(ref Point point, int ClusterID)
         {
@@ -42,9 +38,8 @@ namespace RecommendationEngine
             Console.WriteLine(epsilonNeighborhood.Count);
             if (epsilonNeighborhood.Count < this.minNeighbor)
             {
-                Console.WriteLine("Point Failure");
+                //Console.WriteLine("Point Failure");
                 point.pointType = PointType.noise;
-                point.clID = -1;
                 return false;
             }
             else
@@ -52,7 +47,7 @@ namespace RecommendationEngine
                 foreach (Point nPoint in epsilonNeighborhood)
                 {
                     nPoint.clID = ClusterID;
-                    Console.WriteLine($"ClusterID {ClusterID} assigned to point {nPoint.stID}");
+                    //Console.WriteLine($"ClusterID {ClusterID} assigned to point {nPoint.stID}");
                 }
                 epsilonNeighborhood.Remove(point);
                 while (epsilonNeighborhood.Count != 0)
@@ -92,14 +87,15 @@ namespace RecommendationEngine
                     if (ExpandCluster(ref currentPoint, ClusterID) == true) //IDK if ref is necessary, I need to make sure value of point is changed 
                                                                             //and the change is present in the this.points
                     {
-                        Console.WriteLine("Hit");
+                        OnClusterIDChanged();
+
                         ClusterID += 1;
-                        //OnClusterIDChanged();
+                        
                         this.getCoresRun = true;
                     }
                     else
                     {
-                        Console.WriteLine($"Point {i} failed the vibe check");
+                        //Console.WriteLine($"Point {i} failed the vibe check");
                     }
                 }
             }

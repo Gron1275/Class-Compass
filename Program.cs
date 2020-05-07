@@ -35,27 +35,41 @@ namespace RecommendationEngine
                 double doubleRand = (double)rand.Next(70, 100) / 100;
                 StudentPointList.Add(new Point(i, doubleRand));
             }
-            DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.05, inputMinNeighbor: 5);
-            //dbScan.ClusterIDChanged +=
+            StudentPointList.Add(new Point(1000, 0.5));
+
+            DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.01, inputMinNeighbor: 10);
+            ClusterLogger clusterLogger = new ClusterLogger();
+            dbScan.ClusterIDChanged += clusterLogger.OnClusterIDChanged;
             List<Point> clusteredPoints = dbScan.ReturnClusteredPoints();
+            List<Point> clusterOne = (clusteredPoints.Where(point1 => point1.clID == 1)).ToList();
+            List<Point> clusterTwo = (clusteredPoints.Where(point1 => point1.clID == 2)).ToList();
+            List<Point> clusterThree = (clusteredPoints.Where(point1 => point1.clID == 3)).ToList();
+            Console.WriteLine($"CLuster one size {clusterOne.Count}");
+            Console.WriteLine($"Cluster two size {clusterTwo.Count}");
+            Console.WriteLine($"CLuster three size {clusterThree.Count}");
+
             /*
             foreach (Point point in clusteredPoints)
             {
                 Console.WriteLine($"{point.stID} [{point.value}] : {point.clID}");
             }\*/
+
+            List<Point> NOISE = (clusteredPoints.Where(point1 => point1.pointType == 0)).ToList();
             
-            List<Point> NOISE = (clusteredPoints.Where(point1 => point1.clID == -1)).ToList();
-            foreach (var item in NOISE)
+            if (NOISE.Count != 0)
             {
-                if (NOISE.Count != 0)
-                {
-                    Console.WriteLine("Uh oh why isn't there any noise");
-                }
-                else
+                foreach (var item in NOISE)
                 {
                     Console.WriteLine($"[NOISE] Student ID: {item.stID}; Value: {item.value}");
                 }
+
+                    
             }
+            else
+            {
+                Console.WriteLine("Uh oh why isn't there any noise");
+            }
+            
             /*
             List<List<Point>> listOfListOfPoints = new List<List<Point>>();
 
