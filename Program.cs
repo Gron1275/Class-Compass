@@ -40,6 +40,8 @@ namespace RecommendationEngine
             DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.01, inputMinNeighbor: 10);
             ClusterLogger clusterLogger = new ClusterLogger();
             dbScan.ClusterIDChanged += clusterLogger.OnClusterIDChanged;
+            dbScan.Run();
+            Console.WriteLine($"Number of clusters: {clusterLogger.clusterCount}");
             List<Point> clusteredPoints = dbScan.ReturnClusteredPoints();
             List<Point> clusterOne = (clusteredPoints.Where(point1 => point1.clID == 1)).ToList();
             List<Point> clusterTwo = (clusteredPoints.Where(point1 => point1.clID == 2)).ToList();

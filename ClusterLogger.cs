@@ -10,5 +10,10 @@ namespace RecommendationEngine
             //Console.WriteLine($"Current amount of clusters: {clusterCount}");
             this.clusterCount += 1;
         }
+        public void GetAvgClusterCapacity()
+        {
+            //write code to find average cluster size. could also use this later for finding best vals of eps and minK w/ inertia
+            //SHould implement sillohuete scores tho bc its better for the dbscan algo
+        }
     }
 }

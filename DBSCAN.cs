@@ -4,7 +4,11 @@ using System.Linq;
 
 namespace RecommendationEngine
 {
-    partial class DBSCAN
+    public class ClusterEventArgs : EventArgs
+    {
+        //could write custom args here, maybe not necessary to have all these events and stuff but could make scalability easier.
+    }
+    public class DBSCAN
     {
         private double epsilon;
         private int minNeighbor;
@@ -19,7 +23,6 @@ namespace RecommendationEngine
             //Console.WriteLine($"inputdata set first val {inputDataset[0].value}");
             this.epsilon = inputEpsilon;
             this.minNeighbor = inputMinNeighbor;
-            GetCores();
         }
         public delegate void ClusterIDChangedEventHandler(object source, EventArgs args);
 
@@ -76,7 +79,7 @@ namespace RecommendationEngine
                 return true;
             }
         }
-        private void GetCores()
+        public void Run()
         {
             int ClusterID = 0;
             for (int i = 0; i < this.points.Count; i++)
