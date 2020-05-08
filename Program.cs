@@ -33,45 +33,51 @@ namespace RecommendationEngine
 
             for (int i = 0; i < 1000; i++)
             {
-                double doubleRand = (double)rand.Next(70, 100) / 100;
-                StudentPointList.Add(new Point(i, doubleRand));
+                double doubleRandOne = (double)rand.Next(50, 100) / 100;
+                double doubleRandTwo = (double)rand.Next(50,100) / 100;
+                double doubleRandThree = (double)rand.Next(50, 100) / 100;
+                Matrix matrix = new Matrix(new double[,] { { doubleRandOne, doubleRandTwo, doubleRandThree } });
+                StudentPointList.Add(new Point(i, matrix));
             }
-            StudentPointList.Add(new Point(1000, 0.5));
+            
 
-            DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.01, inputMinNeighbor: 10);
-            ClusterLogger clusterLogger = new ClusterLogger();
+            DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.1, inputMinNeighbor: 10);
+            //ClusterLogger clusterLogger = new ClusterLogger();
 
-            dbScan.ClusterIDChanged += clusterLogger.OnClusterIDChanged;
-            dbScan.DBScanFinished += clusterLogger.OnDBScanFinished;
+            //dbScan.ClusterIDChanged += clusterLogger.OnClusterIDChanged;
+            //dbScan.DBScanFinished += clusterLogger.OnDBScanFinished;
 
             dbScan.Run();
-            clusterLogger.DisplayClusterCount();
+            
 
             List<Point> clusteredPoints = dbScan.ReturnClusteredPoints();
 
-            SimilarityCalculator similarityCalculator = new SimilarityCalculator(clusteredPoints[1], clusteredPoints);
-            /*
+            //SimilarityCalculator similarityCalculator = new SimilarityCalculator(clusteredPoints[1], clusteredPoints);
+            
             foreach (Point point in clusteredPoints)
             {
-                Console.WriteLine($"{point.stID} [{point.value}] : {point.clID}");
-            }\*/
-
+                //Console.WriteLine($"{point.stID} [{point.featMatrix}] : {point.clID}");
+                Console.WriteLine($"{point.stID} [{point.ShowMatrix()}] : {point.clID}");
+            }
+            List<Point> clusterOne = clusteredPoints.Where(point => point.clID == 1).ToList();
+            foreach (Point point in clusterOne)
+            {
+                Console.WriteLine($"ID: {point.stID} - Matrix: {point.ShowMatrix()} - Cluster {point.clID}");
+            }
+            Console.WriteLine($"NUmber of points in cluster one: {clusterOne.Count}");
             List<Point> NOISE = (clusteredPoints.Where(point1 => point1.pointType == 0)).ToList();
             
             if (NOISE.Count != 0)
             {
                 foreach (var item in NOISE)
                 {
-                    Console.WriteLine($"[NOISE] Student ID: {item.stID}; Value: {item.value}");
+                    Console.WriteLine($"[NOISE] Student ID: {item.stID}; Value: {item.ShowMatrix()}");
                 }
-
-                    
             }
             else
             {
                 Console.WriteLine("Uh oh why isn't there any noise");
             }
-            
             /*
             List<List<Point>> listOfListOfPoints = new List<List<Point>>();
 

@@ -6,7 +6,7 @@ namespace RecommendationEngine
 {
     public class ClusterEventArgs : EventArgs
     {
-        //could write custom args here, maybe not necessary to have all these events and stuff but could make scalability easier.
+        public List<Point> Points { get; set; }
     }
     public class DBSCAN
     {
@@ -23,6 +23,11 @@ namespace RecommendationEngine
             //Console.WriteLine($"inputdata set first val {inputDataset[0].value}");
             this.epsilon = inputEpsilon;
             this.minNeighbor = inputMinNeighbor;
+
+            ClusterLogger clusterLogger = new ClusterLogger();
+
+            this.ClusterIDChanged += clusterLogger.OnClusterIDChanged;
+            this.DBScanFinished += clusterLogger.OnDBScanFinished;
         }
 
         /////////////////////////////////////////////////////////////////////////////////////
@@ -32,11 +37,11 @@ namespace RecommendationEngine
 
         protected virtual void OnClusterIDChanged() => ClusterIDChanged?.Invoke(this, EventArgs.Empty);
 
-        public delegate void DBScanFinishedEventHandler(object source, EventArgs args);
+        public delegate void DBScanFinishedEventHandler(object source, ClusterEventArgs args);
 
         public event DBScanFinishedEventHandler DBScanFinished;
 
-        protected virtual void OnDBScanFinished() => DBScanFinished?.Invoke(this, EventArgs.Empty);
+        protected virtual void OnDBScanFinished(List<Point> points) => DBScanFinished?.Invoke(this, new ClusterEventArgs() { Points = points });
         ////////////////////////////////////////////////////////////////////////////////////
         
         double DistCalc(double x1, double x2) => Math.Sqrt(Math.Pow((x1 - x2), 2)); //Currently only accounts for scalars, cant do matrices yet
@@ -44,10 +49,11 @@ namespace RecommendationEngine
         {
             List<Point> epsilonNeighborhood = new List<Point>();
 
-            List<Point> findNeighborsOf(Point queryPoint) => this.points.Where(currentPoint => DistCalc(queryPoint.value, currentPoint.value) <= this.epsilon).ToList();
+            //List<Point> findNeighborsOf(Point queryPoint) => this.points.Where(currentPoint => DistCalc(queryPoint.value, currentPoint.value) <= this.epsilon).ToList();
 
+            List<Point> findNeighborsOf(Point queryPoint) => this.points.Where(currentPoint => currentPoint.DistanceTo(queryPoint) <= this.epsilon).ToList();
             epsilonNeighborhood = findNeighborsOf(point);
-            Console.WriteLine(epsilonNeighborhood.Count);
+            //Console.WriteLine(epsilonNeighborhood.Count);
             if (epsilonNeighborhood.Count < this.minNeighbor)
             {
                 //Console.WriteLine("Point Failure");
@@ -111,7 +117,7 @@ namespace RecommendationEngine
                     }
                 }
             }
-            OnDBScanFinished();
+            OnDBScanFinished(this.points);
         }
         public List<Point> ReturnClusteredPoints()
         {
