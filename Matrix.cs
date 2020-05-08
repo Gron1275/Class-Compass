@@ -28,10 +28,6 @@
                 }
             }
         }
-        public Matrix(Point[,] entries)
-        {
-
-        }
         public double this[int Xindex, int Yindex]
         {
             get => this.matrix[Xindex, Yindex];//Not in standard { get; set; } form b/c I might alter index protection

@@ -14,17 +14,16 @@ namespace RecommendationEngine
         private int minNeighbor;
         private List<Point> points;
         private bool getCoresRun = false; //keep for time being
+        private ClusterLogger clusterLogger ;
 
         public DBSCAN(List<Point> inputDataset, double inputEpsilon, int inputMinNeighbor, string inMetric = "Euclidean")
         {
             this.points = inputDataset;
             
-            //Console.WriteLine($"localized point set first val {this.points[0].value}");
-            //Console.WriteLine($"inputdata set first val {inputDataset[0].value}");
             this.epsilon = inputEpsilon;
             this.minNeighbor = inputMinNeighbor;
 
-            ClusterLogger clusterLogger = new ClusterLogger();
+            this.clusterLogger = new ClusterLogger();
 
             this.ClusterIDChanged += clusterLogger.OnClusterIDChanged;
             this.DBScanFinished += clusterLogger.OnDBScanFinished;
@@ -81,7 +80,6 @@ namespace RecommendationEngine
                             case null:
                                 currentResult.clID = ClusterID;
                                 epsilonNeighborhood.Add(currentResult);
-
                                 break;
                             case 0:
                                 break;
@@ -119,18 +117,23 @@ namespace RecommendationEngine
             }
             OnDBScanFinished(this.points);
         }
-        public List<Point> ReturnClusteredPoints()
+        public Dictionary<int, List<Point>> ReturnClusteredPoints()
         {
             if (this.getCoresRun == true)
             {
-                return this.points;
+                //return this.points;
+                return this.clusterLogger.clusterList;
             }
             else
             {
                 Console.WriteLine("Points are currently unclustered");
-                List<Point> nullList = new List<Point>();
+                Dictionary<int, List<Point>> nullList = new Dictionary<int, List<Point>>();
                 return nullList;
             } 
+        }
+        public int ReturnClusterAmount()
+        {
+            return this.clusterLogger.clusterCount;
         }
     }
 }

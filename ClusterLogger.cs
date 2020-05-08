@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Linq;
 
 namespace RecommendationEngine
@@ -9,7 +8,12 @@ namespace RecommendationEngine
     {
         public int clusterCount = 0;
         private List<Point> internalPoints;
-        private Dictionary<int, List<Point>> clusterList;
+        public Dictionary<int, List<Point>> clusterList;
+
+        public ClusterLogger()
+        {
+            clusterList = new Dictionary<int, List<Point>>();
+        }
 
         public void OnClusterIDChanged(object source, EventArgs e) => this.clusterCount += 1;
 
