@@ -9,6 +9,14 @@ namespace RecommendationEngine
         public int clusterCount = 0;
         private List<Point> internalPoints;
         public Dictionary<int, List<Point>> clusterList;
+        public List<Point> Noise
+        {
+            get
+            {
+                List<Point> noise = this.internalPoints.Where(qPoint => qPoint.pointType == 0).ToList();
+                return noise;
+            }
+        }
 
         public ClusterLogger()
         {

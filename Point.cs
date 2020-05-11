@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Data.Analysis;
+
 
 namespace RecommendationEngine
 {
@@ -11,12 +13,13 @@ namespace RecommendationEngine
         public int? clID;
         public PointType? pointType;
         public double value;
+        public DataFrame featureFrame; //Might not use this for AP Project b/c it renders my Matrix type obsolete
 
         public int stID;
 
         public Matrix featMatrix;
 
-        public double[] featArray;
+        public double[] classArray;
         //For pointType, 0 will signify noise, 1 a border point, and 2 a core point
         //For clID, "n" will signify which cluster the point is in
         public Point(int inStID, double inValue)

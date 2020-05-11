@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Diagnostics;
 namespace RecommendationEngine
 {
     public class ClusterEventArgs : EventArgs
@@ -11,10 +11,20 @@ namespace RecommendationEngine
     public class DBSCAN
     {
         private double epsilon;
+
         private int minNeighbor;
+
         private List<Point> points;
+
         private bool getCoresRun = false; //keep for time being
-        private ClusterLogger clusterLogger ;
+
+        private ClusterLogger clusterLogger;
+
+        public int ClusterAmount => this.clusterLogger.clusterCount;
+
+        public int NoiseAmount => this.clusterLogger.Noise.Count;
+        
+        public string elapsedTime;
 
         public DBSCAN(List<Point> inputDataset, double inputEpsilon, int inputMinNeighbor, string inMetric = "Euclidean")
         {
@@ -94,6 +104,8 @@ namespace RecommendationEngine
         }
         public void Run()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             int ClusterID = 0;
             for (int i = 0; i < this.points.Count; i++)
             {
@@ -115,6 +127,11 @@ namespace RecommendationEngine
                     }
                 }
             }
+            stopwatch.Stop();
+            TimeSpan ts = stopwatch.Elapsed;
+
+            this.elapsedTime = String.Format("{0:00}:{1:00}:{2:00}:{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+
             OnDBScanFinished(this.points);
         }
         public Dictionary<int, List<Point>> ReturnClusteredPoints()
@@ -131,9 +148,6 @@ namespace RecommendationEngine
                 return nullList;
             } 
         }
-        public int ReturnClusterAmount()
-        {
-            return this.clusterLogger.clusterCount;
-        }
+        
     }
 }
