@@ -39,6 +39,7 @@ namespace RecommendationEngine
             this.inputHat = GetHat(this.pointInQuestion.featMatrix);
 
             double topSigma = 0.0;
+            
             for (int i = 0; i < tempList.Count; i++) //Top half of pierson
             {
                 double xDifference = i;//shouldnt equal i its just placeholder
