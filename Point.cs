@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Data.Analysis;
+//using Microsoft.Data.Analysis;
 
 
 namespace RecommendationEngine
@@ -13,7 +13,7 @@ namespace RecommendationEngine
         public int? clID;
         public PointType? pointType;
         public double value;
-        public DataFrame featureFrame; //Might not use this for AP Project b/c it renders my Matrix type obsolete
+        //public DataFrame featureFrame; //Might not use this for AP Project b/c it renders my Matrix type obsolete
 
         public int stID;
 
@@ -58,7 +58,6 @@ namespace RecommendationEngine
             }
             finalString = string.Join(",", final.ToArray());
 
-
             return finalString;
         }
         // if currentPoint.DistanceTo(point[i]) <= eps ...
@@ -74,7 +73,6 @@ namespace RecommendationEngine
 
             for (int i = 0; i < columns; i++)
             {
-                //sigma += Math.Pow((this.featMatrix[i, 0] - yPoint.featMatrix[i, 0]), 2);
                 sigma += Math.Pow((this.featMatrix[0, i] - yPoint.featMatrix[0, i]), 2);
             }
             distance = Math.Sqrt(sigma);

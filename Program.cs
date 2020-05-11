@@ -18,7 +18,7 @@ namespace RecommendationEngine
 
             double RandDouble()
             {
-                double randNum = (double)rand.Next(50, 101);
+                double randNum = rand.Next(50, 101);
                 if(randNum < 49)
                 {
                     randNum = 0;
@@ -39,7 +39,7 @@ namespace RecommendationEngine
                 StudentPointList.Add(new Point(i, matrix));
             }
 
-            DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.08, inputMinNeighbor: 3);
+            DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.08, inputMinNeighbor: 10);
 
             dbScan.Run();
             
@@ -61,7 +61,7 @@ namespace RecommendationEngine
             }
 
             Console.WriteLine($"Noise Count: {dbScan.NoiseAmount}");
-            Console.WriteLine($"DBSCAN RunTime: {dbScan.elapsedTime}");
+
             
             //SimilarityCalculator similarityCalculator = new SimilarityCalculator(clusteredPoints[1], clusteredPoints);
 
@@ -77,18 +77,6 @@ namespace RecommendationEngine
                 }
             }
             */
-        }
-        static int[,] GetUserData(string filePath)
-        {
-            //Access csv file that has been downloaded from google forms
-            int[,] placeholder = new int[1, 9];
-            return placeholder;
-        }
-        static int[,] GetClassData(string filePath)
-        {
-            //Access csv file that stores the tags for each class
-            int[,] placeholder = new int[4, 9];
-            return placeholder;
         }
     }
 }

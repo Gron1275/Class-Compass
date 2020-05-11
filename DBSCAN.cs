@@ -23,8 +23,6 @@ namespace RecommendationEngine
         public int ClusterAmount => this.clusterLogger.clusterCount;
 
         public int NoiseAmount => this.clusterLogger.Noise.Count;
-        
-        public string elapsedTime;
 
         public DBSCAN(List<Point> inputDataset, double inputEpsilon, int inputMinNeighbor, string inMetric = "Euclidean")
         {
@@ -46,6 +44,7 @@ namespace RecommendationEngine
 
         protected virtual void OnClusterIDChanged() => ClusterIDChanged?.Invoke(this, EventArgs.Empty);
 
+
         public delegate void DBScanFinishedEventHandler(object source, ClusterEventArgs args);
 
         public event DBScanFinishedEventHandler DBScanFinished;
@@ -53,19 +52,15 @@ namespace RecommendationEngine
         protected virtual void OnDBScanFinished(List<Point> points) => DBScanFinished?.Invoke(this, new ClusterEventArgs() { Points = points });
         ////////////////////////////////////////////////////////////////////////////////////
         
-        double DistCalc(double x1, double x2) => Math.Sqrt(Math.Pow((x1 - x2), 2)); //Currently only accounts for scalars, cant do matrices yet
         bool ExpandCluster(ref Point point, int ClusterID)
         {
             List<Point> epsilonNeighborhood = new List<Point>();
 
-            //List<Point> findNeighborsOf(Point queryPoint) => this.points.Where(currentPoint => DistCalc(queryPoint.value, currentPoint.value) <= this.epsilon).ToList();
-
             List<Point> findNeighborsOf(Point queryPoint) => this.points.Where(currentPoint => currentPoint.DistanceTo(queryPoint) <= this.epsilon).ToList();
             epsilonNeighborhood = findNeighborsOf(point);
-            //Console.WriteLine(epsilonNeighborhood.Count);
+
             if (epsilonNeighborhood.Count < this.minNeighbor)
             {
-                //Console.WriteLine("Point Failure");
                 point.pointType = PointType.noise;
                 return false;
             }
@@ -74,7 +69,6 @@ namespace RecommendationEngine
                 foreach (Point nPoint in epsilonNeighborhood)
                 {
                     nPoint.clID = ClusterID;
-                    //Console.WriteLine($"ClusterID {ClusterID} assigned to point {nPoint.stID}");
                 }
                 epsilonNeighborhood.Remove(point);
                 while (epsilonNeighborhood.Count != 0)
@@ -104,8 +98,6 @@ namespace RecommendationEngine
         }
         public void Run()
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
             int ClusterID = 0;
             for (int i = 0; i < this.points.Count; i++)
             {
@@ -127,18 +119,12 @@ namespace RecommendationEngine
                     }
                 }
             }
-            stopwatch.Stop();
-            TimeSpan ts = stopwatch.Elapsed;
-
-            this.elapsedTime = String.Format("{0:00}:{1:00}:{2:00}:{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-
             OnDBScanFinished(this.points);
         }
         public Dictionary<int, List<Point>> ReturnClusteredPoints()
         {
             if (this.getCoresRun == true)
             {
-                //return this.points;
                 return this.clusterLogger.clusterList;
             }
             else
