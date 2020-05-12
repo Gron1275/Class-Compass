@@ -19,6 +19,12 @@ namespace RecommendationEngine
 
             DataFrame dataFrame = new DataFrame(StudentID, mathComp, litComp, socComp, scienceComp);
             */
+
+            #region Point Generation
+            /// <summary>
+            /// Generates random points to be used for testing the unsupervised learning algorithm.
+            /// Then it adds them to the StudentPointList for use in the dbscan
+            /// </summary>
             List<Point> StudentPointList = new List<Point>();
             Random rand = new Random();
 
@@ -46,12 +52,22 @@ namespace RecommendationEngine
                 Matrix matrix = new Matrix(new double[,] { { doubleRandOne, doubleRandTwo, doubleRandThree, dRF } });
                 StudentPointList.Add(new Point(i, matrix));
             }
+            #endregion
 
+            #region DBSCAN Code
+            /// <summary>
+            /// Create an instance of the DBSCAN class and find the ideal value for minK before running
+            /// </summary>
             int idealMinK = StudentPointList[0].featMatrix.GetColumns() * 2;
             DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.089, inputMinNeighbor: idealMinK);
             //Best value for minK is 2 * the amt of dimensions
             dbScan.Run();
+            #endregion
 
+            #region Diagnostics & Testing Relevant Output
+            /// <summary>
+            /// Used for separating out the clustered lists and printing their contents before displaying amt of noise
+            /// </summary>
             Dictionary<int, List<Point>> clusteredPoints = dbScan.ReturnClusteredPoints();
 
             List<Point> GetList(int listID) => clusteredPoints[listID];
@@ -71,7 +87,7 @@ namespace RecommendationEngine
             Console.WriteLine($"Noise Amount: {dbScan.NoiseAmount}");
             double noisePercentage = ((double)dbScan.NoiseAmount / StudentPointList.Count) * 100;
             Console.WriteLine($"Noise Percentage: {Math.Floor(noisePercentage)}%");
-
+            #endregion
 
             //SimilarityCalculator similarityCalculator = new SimilarityCalculator(clusteredPoints[1], clusteredPoints);
 

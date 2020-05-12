@@ -26,8 +26,15 @@ namespace RecommendationEngine
         public DBSCAN(List<Point> inputDataset, double inputEpsilon, int inputMinNeighbor, string inMetric = "Euclidean")
         {
             this.points = inputDataset;
+            if (inputEpsilon > 0)
+            {
+                this.epsilon = inputEpsilon;
+            }
+            else
+            {
+                Console.WriteLine("epsilon value must be greater than zero");
+            }
 
-            this.epsilon = inputEpsilon;
             this.minNeighbor = inputMinNeighbor;
 
             this.clusterLogger = new ClusterLogger();
@@ -36,7 +43,11 @@ namespace RecommendationEngine
             this.DBScanFinished += clusterLogger.OnDBScanFinished;
         }
 
-        /////////////////////////////////////////////////////////////////////////////////////
+        #region Event Handlers for partioning clusters and diagnostics
+        /// <summary>
+        /// Two events for counting the amount of clusters created and a second event that sends the clustered points to the 
+        /// ClusterLogger for partioning into lists of same cluster ID
+        /// </summary>
         public delegate void ClusterIDChangedEventHandler(object source, EventArgs args);
 
         public event ClusterIDChangedEventHandler ClusterIDChanged;
@@ -49,8 +60,38 @@ namespace RecommendationEngine
         public event DBScanFinishedEventHandler DBScanFinished;
 
         protected virtual void OnDBScanFinished(List<Point> points) => DBScanFinished?.Invoke(this, new ClusterEventArgs() { Points = points });
-        ////////////////////////////////////////////////////////////////////////////////////
+        #endregion
+        #region Clustering Algorithm
+        /// <summary>
+        /// Region contains the actual clustering of the points in the data set.
+        /// After the main for loop has finished an iteration and ExpandCluster is true 
+        /// it increments the ClusterID for the rest of the points.
+        /// </summary>
+        public void Run()
+        {
+            int ClusterID = 0;
+            for (int i = 0; i < this.points.Count; i++)
+            {
+                Point currentPoint = this.points[i];
+                if (currentPoint.clID == null)
+                {
+                    if (ExpandCluster(ref currentPoint, ClusterID) == true) //IDK if ref is necessary, I need to make sure value of point is changed 
+                                                                            //and the change is present in the this.points
+                    {
+                        OnClusterIDChanged();
 
+                        ClusterID += 1;
+
+                        this.getCoresRun = true;
+                    }
+                    else
+                    {
+                        //Console.WriteLine($"Point {i} failed the vibe check");
+                    }
+                }
+            }
+            OnDBScanFinished(this.points);
+        }
         bool ExpandCluster(ref Point point, int ClusterID)
         {
             List<Point> epsilonNeighborhood = new List<Point>();
@@ -95,31 +136,8 @@ namespace RecommendationEngine
                 return true;
             }
         }
-        public void Run()
-        {
-            int ClusterID = 0;
-            for (int i = 0; i < this.points.Count; i++)
-            {
-                Point currentPoint = this.points[i];
-                if (currentPoint.clID == null)
-                {
-                    if (ExpandCluster(ref currentPoint, ClusterID) == true) //IDK if ref is necessary, I need to make sure value of point is changed 
-                                                                            //and the change is present in the this.points
-                    {
-                        OnClusterIDChanged();
+        #endregion
 
-                        ClusterID += 1;
-
-                        this.getCoresRun = true;
-                    }
-                    else
-                    {
-                        //Console.WriteLine($"Point {i} failed the vibe check");
-                    }
-                }
-            }
-            OnDBScanFinished(this.points);
-        }
         public Dictionary<int, List<Point>> ReturnClusteredPoints()
         {
             if (this.getCoresRun == true)
@@ -133,6 +151,5 @@ namespace RecommendationEngine
                 return nullList;
             }
         }
-
     }
 }
