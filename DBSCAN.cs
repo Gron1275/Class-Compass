@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics;
 namespace RecommendationEngine
 {
     public class ClusterEventArgs : EventArgs
@@ -27,7 +26,7 @@ namespace RecommendationEngine
         public DBSCAN(List<Point> inputDataset, double inputEpsilon, int inputMinNeighbor, string inMetric = "Euclidean")
         {
             this.points = inputDataset;
-            
+
             this.epsilon = inputEpsilon;
             this.minNeighbor = inputMinNeighbor;
 
@@ -51,7 +50,7 @@ namespace RecommendationEngine
 
         protected virtual void OnDBScanFinished(List<Point> points) => DBScanFinished?.Invoke(this, new ClusterEventArgs() { Points = points });
         ////////////////////////////////////////////////////////////////////////////////////
-        
+
         bool ExpandCluster(ref Point point, int ClusterID)
         {
             List<Point> epsilonNeighborhood = new List<Point>();
@@ -110,7 +109,7 @@ namespace RecommendationEngine
                         OnClusterIDChanged();
 
                         ClusterID += 1;
-                        
+
                         this.getCoresRun = true;
                     }
                     else
@@ -132,8 +131,8 @@ namespace RecommendationEngine
                 Console.WriteLine("Points are currently unclustered");
                 Dictionary<int, List<Point>> nullList = new Dictionary<int, List<Point>>();
                 return nullList;
-            } 
+            }
         }
-        
+
     }
 }

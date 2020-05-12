@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace RecommendationEngine
@@ -38,8 +37,8 @@ namespace RecommendationEngine
              //for the inputPoint and whatever row of the list that the iterator is on.
             this.inputHat = GetHat(this.pointInQuestion.featMatrix);
 
-            double topSigma = 0.0;
-            
+            //double topSigma = 0.0;
+
             for (int i = 0; i < tempList.Count; i++) //Top half of pierson
             {
                 double xDifference = i;//shouldnt equal i its just placeholder

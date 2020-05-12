@@ -1,20 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-//using Microsoft.Data.Analysis;
-
 
 namespace RecommendationEngine
 {
     public class Point //Could substitute person for point in final
     {
 
-         //Could make this (double value vafriable) a vector w/ all the diff grades & classes
+        //Could make this (double value vafriable) a vector w/ all the diff grades & classes
         public int? clID;
         public PointType? pointType;
         public double value;
-        //public DataFrame featureFrame; //Might not use this for AP Project b/c it renders my Matrix type obsolete
-
         public int stID;
 
         public Matrix featMatrix;

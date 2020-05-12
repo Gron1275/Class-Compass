@@ -13,7 +13,7 @@ namespace RecommendationEngine
         {
 
         }
-        
+
         /*
         public List<Point> QuickGenerate(int numToCreate)
         {

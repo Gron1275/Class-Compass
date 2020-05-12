@@ -47,6 +47,10 @@ namespace RecommendationEngine
                 this.clusterList.Add(i, ListOfNCLuster);
             }
         }
-        
+        public void SilhouetteScore()
+        {
+            //This is gonna be computationally brutal but...
+
+        }
     }
 }

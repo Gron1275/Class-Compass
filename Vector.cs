@@ -8,7 +8,7 @@ namespace RecommendationEngine
         //</summary>
         private double[,] vectorArray;
 
-        public Vector(int dimensions, string plane="vertical")//Initialize empty vector of dimension (m,1)
+        public Vector(int dimensions, string plane = "vertical")//Initialize empty vector of dimension (m,1)
         {
             if (plane == "vertical")
             {
