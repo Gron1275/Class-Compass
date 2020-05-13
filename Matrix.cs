@@ -3,7 +3,7 @@
     public class Matrix : ILinearAlgebra
     {
         //<summary>
-        //I created this class because, while at it's core it is little more than an 2d integer array (int[,]),
+        //I created this class because, while at it's core it is little more than an 2d double array (int[,]),
         //I wanted the freedom to use these arrays in particular ways and be able to name them Matrices for clarity 
         //</summary>
         private double[,] matrix;
