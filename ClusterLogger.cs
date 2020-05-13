@@ -17,7 +17,6 @@ namespace RecommendationEngine
                 return noise;
             }
         }
-
         public ClusterLogger()
         {
             clusterList = new Dictionary<int, List<Point>>();

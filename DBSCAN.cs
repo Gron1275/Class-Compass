@@ -9,6 +9,7 @@ namespace RecommendationEngine
     }
     public class DBSCAN
     {
+        #region Assets
         private double epsilon;
 
         private int minNeighbor;
@@ -22,7 +23,7 @@ namespace RecommendationEngine
         public int ClusterAmount => this.clusterLogger.clusterCount;
 
         public int NoiseAmount => this.clusterLogger.Noise.Count;
-
+        #endregion
         public DBSCAN(List<Point> inputDataset, double inputEpsilon, int inputMinNeighbor, string inMetric = "Euclidean")
         {
             this.points = inputDataset;
@@ -147,7 +148,7 @@ namespace RecommendationEngine
             else
             {
                 Console.WriteLine("Points are currently unclustered");
-                Dictionary<int, List<Point>> nullList = new Dictionary<int, List<Point>>();
+                Dictionary<int, List<Point>> nullList = null;
                 return nullList;
             }
         }

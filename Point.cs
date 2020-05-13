@@ -56,24 +56,40 @@ namespace RecommendationEngine
             return finalString;
         }
         // if currentPoint.DistanceTo(point[i]) <= eps ...
-        public double DistanceTo(Point yPoint)
+        /// <summary>
+        /// Check the distance between the objects array and the yPoint array
+        /// </summary>
+        /// <param name="yPoint"></param>
+        /// <param name="equation"></param>
+        /// <returns></returns>
+        public double DistanceTo(Point yPoint, string equation="euclidean")
         {
             double distance;
 
-            int columns = (this.featMatrix.GetColumns() == yPoint.featMatrix.GetColumns()) ? this.featMatrix.GetColumns() : 0;
-            //Console.WriteLine($"Rows of matrix: {rows} - Columns of matrix: {this.featMatrix.GetColumns()}");
-            //int columns = (this.featMatrix.GetColumns() == yPoint.featMatrix.GetColumns()) ? this.featMatrix.GetColumns() : 0;
-            //might not need columns bc its only going thru one row of the big matrix. however maybe i hafta iterate thru columns rather than rows.
-            double sigma = 0.0;
-
-            for (int i = 0; i < columns; i++)
+            if (equation == "euclidean")
             {
-                sigma += Math.Pow((this.featMatrix[0, i] - yPoint.featMatrix[0, i]), 2);
+                int columns = (this.featMatrix.GetColumns() == yPoint.featMatrix.GetColumns()) ? this.featMatrix.GetColumns() : 0;
+                //Console.WriteLine($"Rows of matrix: {rows} - Columns of matrix: {this.featMatrix.GetColumns()}");
+                //int columns = (this.featMatrix.GetColumns() == yPoint.featMatrix.GetColumns()) ? this.featMatrix.GetColumns() : 0;
+                //might not need columns bc its only going thru one row of the big matrix. however maybe i hafta iterate thru columns rather than rows.
+                double sigma = 0.0;
+
+                for (int i = 0; i < columns; i++)
+                {
+                    sigma += Math.Pow((this.featMatrix[0, i] - yPoint.featMatrix[0, i]), 2);
+                }
+                distance = Math.Sqrt(sigma);
+                return distance;
             }
-            distance = Math.Sqrt(sigma);
-
-
-            return distance;
+            else if (equation == "minkowski")
+            {
+                // put in minkowski code
+                return 0;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Microsoft.Data.Analysis;
 namespace RecommendationEngine
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             //TableCreator tableCreator = new TableCreator();
             //List<Point> StudentPointList = tableCreator.GenerateStudentPointList("placeholder");
-
-            /*
+            #region DataFrame Code
             PrimitiveDataFrameColumn<int> StudentID = new PrimitiveDataFrameColumn<int>("Student ID");
             PrimitiveDataFrameColumn<double> mathComp = new PrimitiveDataFrameColumn<double>("Mathematical Competency");
             PrimitiveDataFrameColumn<double> litComp = new PrimitiveDataFrameColumn<double>("Literary Competency");
             PrimitiveDataFrameColumn<double> socComp = new PrimitiveDataFrameColumn<double>("Social Studies Competency");
-            PrimitiveDataFrameColumn<double> scienceComp = new PrimitiveDataFrameColumn<double>("Science Competency");
-
+            PrimitiveDataFrameColumn<double> scienceComp = new PrimitiveDataFrameColumn<double>("Science Competency");       
             DataFrame dataFrame = new DataFrame(StudentID, mathComp, litComp, socComp, scienceComp);
-            */
+            #endregion
 
             #region Point Generation
             /// <summary>
