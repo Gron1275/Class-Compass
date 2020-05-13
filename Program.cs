@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Data.Analysis;
+
 namespace RecommendationEngine
 {
     class Program
     {
         static void Main()
         {
-            //TableCreator tableCreator = new TableCreator();
-            //List<Point> StudentPointList = tableCreator.GenerateStudentPointList("placeholder");
              #region DataFrame Code
             PrimitiveDataFrameColumn<int> StudentID = new PrimitiveDataFrameColumn<int>("Student ID");
             PrimitiveDataFrameColumn<double> mathComp = new PrimitiveDataFrameColumn<double>("Mathematical Competency");
@@ -44,10 +43,8 @@ namespace RecommendationEngine
                 double doubleRandOne = RandDouble();
                 double doubleRandTwo = RandDouble();
                 double doubleRandThree = RandDouble();
-                double dRF = RandDouble();
-                double dRFi = RandDouble();
-                double dFS = RandDouble();
-                Matrix matrix = new Matrix(new double[,] { { doubleRandOne, doubleRandTwo, doubleRandThree, dRF } });
+
+                Matrix matrix = new Matrix(new double[,] { { doubleRandOne, doubleRandTwo, doubleRandThree } });
                 StudentPointList.Add(new Point(i, matrix));
             }
             #endregion
@@ -66,6 +63,8 @@ namespace RecommendationEngine
             /// <summary>
             /// Used for separating out the clustered lists and printing their contents before displaying amt of noise
             /// </summary>
+            CsvService csvService = new CsvService(StudentPointList);
+            csvService.WriteListToFile(@"C:\Users\Grennon\source\repos\RecommendationEngine\outfile.csv");
             Dictionary<int, List<Point>> clusteredPoints = dbScan.ReturnClusteredPoints();
 
             List<Point> GetList(int listID) => clusteredPoints[listID];
