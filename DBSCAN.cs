@@ -24,6 +24,19 @@ namespace RecommendationEngine
 
         public int NoiseAmount => this.clusterLogger.Noise.Count;
         #endregion
+        /// <summary>
+        /// Constructor for DBSCAN Class. 
+        /// </summary>
+        /// <param name="inputDataset"></param>
+        /// <param name="inputEpsilon"></param>
+        /// <param name="inputMinNeighbor"></param>
+        /// <param name="inMetric"></param>
+        /// <remarks>
+        ///          inputDataset is the list of points to use for clustering,
+        ///          inputEpsilon is the radius in which other points must be to be part of the "neighborhood"
+        ///          inputMinNeighbor is the amount of points inside of the radius defined by inputEpsilon param that constitutes a "core point"
+        ///          inMetric is the equation used for calculating the distance between points
+        /// </remarks>
         public DBSCAN(List<Point> inputDataset, double inputEpsilon, int inputMinNeighbor, string inMetric = "Euclidean")
         {
             this.points = inputDataset;
@@ -62,6 +75,7 @@ namespace RecommendationEngine
 
         protected virtual void OnDBScanFinished(List<Point> points) => DBScanFinished?.Invoke(this, new ClusterEventArgs() { Points = points });
         #endregion
+
         #region Clustering Algorithm
         /// <summary>
         /// Region contains the actual clustering of the points in the data set.

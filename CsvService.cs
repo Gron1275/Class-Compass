@@ -12,7 +12,11 @@ namespace RecommendationEngine
         {
             this.localPoints = inputList;
         }
-        public void WriteListToFile(string filePath)
+        public CsvService()
+        {
+
+        }
+        public void WriteListToFile(List<Point> inputList, string filePath)
         {
             using (MemoryStream memory = new MemoryStream())
             using (StreamWriter writer = new StreamWriter(memory))
@@ -41,7 +45,8 @@ namespace RecommendationEngine
         }
         public void ReadListFromFile(string filePath)
         {
-
+            var file = File.ReadAllText(filePath);
+            Console.WriteLine(file);
         }
     }
 }

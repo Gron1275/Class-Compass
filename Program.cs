@@ -8,7 +8,7 @@ namespace RecommendationEngine
     {
         static void Main()
         {
-             #region DataFrame Code
+            #region DataFrame Code
             PrimitiveDataFrameColumn<int> StudentID = new PrimitiveDataFrameColumn<int>("Student ID");
             PrimitiveDataFrameColumn<double> mathComp = new PrimitiveDataFrameColumn<double>("Mathematical Competency");
             PrimitiveDataFrameColumn<double> litComp = new PrimitiveDataFrameColumn<double>("Literary Competency");
@@ -21,32 +21,46 @@ namespace RecommendationEngine
             /// <summary>
             /// Generates random points to be used for testing the unsupervised learning algorithm.
             /// Then it adds them to the StudentPointList for use in the dbscan
+            /// OR, read points from a csv file and add them to the StudentPointList instead
             /// </summary>
+            bool needPoints = false;
             List<Point> StudentPointList = new List<Point>();
-            Random rand = new Random();
-
-            double RandDouble()
+            if (needPoints)
             {
-                double randNum = rand.Next(50, 101);
-                if (randNum < 49)
-                {
-                    randNum = 0;
-                    return randNum;
-                }
-                else
-                {
-                    return randNum / 100;
-                }
-            }
-            for (int i = 0; i < 2000; i++)
-            {
-                double doubleRandOne = RandDouble();
-                double doubleRandTwo = RandDouble();
-                double doubleRandThree = RandDouble();
+                Random rand = new Random();
 
-                Matrix matrix = new Matrix(new double[,] { { doubleRandOne, doubleRandTwo, doubleRandThree } });
-                StudentPointList.Add(new Point(i, matrix));
+                double RandDouble()
+                {
+                    double randNum = rand.Next(50, 101);
+                    if (randNum < 49)
+                    {
+                        randNum = 0;
+                        return randNum;
+                    }
+                    else
+                    {
+                        return randNum / 100;
+                    }
+                }
+                for (int i = 0; i < 2000; i++)
+                {
+                    double doubleRandOne = RandDouble();
+                    double doubleRandTwo = RandDouble();
+                    double doubleRandThree = RandDouble();
+
+                    Matrix matrix = new Matrix(new double[,] { { doubleRandOne, doubleRandTwo, doubleRandThree } });
+                    StudentPointList.Add(new Point(i, matrix));
+                }
+                CsvService csvService = new CsvService();
+                csvService.WriteListToFile(StudentPointList, @"C:\Users\Grennon\source\repos\RecommendationEngine\outfile.csv");
             }
+            else
+            {
+                CsvService csvService = new CsvService();
+
+            }
+
+            
             #endregion
 
             #region DBSCAN Code
@@ -63,8 +77,6 @@ namespace RecommendationEngine
             /// <summary>
             /// Used for separating out the clustered lists and printing their contents before displaying amt of noise
             /// </summary>
-            CsvService csvService = new CsvService(StudentPointList);
-            csvService.WriteListToFile(@"C:\Users\Grennon\source\repos\RecommendationEngine\outfile.csv");
             Dictionary<int, List<Point>> clusteredPoints = dbScan.ReturnClusteredPoints();
 
             List<Point> GetList(int listID) => clusteredPoints[listID];
