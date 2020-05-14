@@ -26,6 +26,8 @@ namespace RecommendationEngine
 
         public int NoiseAmount => this.clusterLogger.Noise.Count;
 
+        public Dictionary<int, List<Point>> ClusteredPoints => this.clusterLogger.clusterList;
+
         public double timeElapsed;
         #endregion
 
@@ -35,14 +37,13 @@ namespace RecommendationEngine
         /// <param name="inputDataset"></param>
         /// <param name="inputEpsilon"></param>
         /// <param name="inputMinNeighbor"></param>
-        /// <param name="inMetric"></param>
         /// <remarks>
         ///          inputDataset is the list of points to use for clustering,
         ///          inputEpsilon is the radius in which other points must be to be part of the "neighborhood"
         ///          inputMinNeighbor is the amount of points inside of the radius defined by inputEpsilon param that constitutes a "core point"
         ///          inMetric is the equation used for calculating the distance between points
         /// </remarks>
-        public DBSCAN(List<Point> inputDataset, double inputEpsilon, int inputMinNeighbor, string inMetric = "Euclidean")
+        public DBSCAN(List<Point> inputDataset, double inputEpsilon, int inputMinNeighbor)
         {
             this.points = inputDataset;
             this.epsilon = inputEpsilon;
@@ -147,19 +148,5 @@ namespace RecommendationEngine
             }
         }
         #endregion
-
-        public Dictionary<int, List<Point>> ReturnClusteredPoints()
-        {
-            if (this.getCoresRun == true)
-            {
-                return this.clusterLogger.clusterList;
-            }
-            else
-            {
-                Console.WriteLine("Points are currently unclustered");
-                Dictionary<int, List<Point>> nullList = null;
-                return nullList;
-            }
-        }
     }
 }

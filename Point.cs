@@ -3,12 +3,18 @@ using System.Collections.Generic;
 
 namespace RecommendationEngine
 {
+    public enum PointType
+    {
+        noise = 0,
+        border = 1, //Actually designate which points are border points the suggestions given to them from their cluster are weighted less than their interests 
+                    //b/c they are less similar so their recommendations should be based more on the item based part of the algo than the user similarity
+        core = 2
+    };
     public class Point
     {
         #region Assets
         public int? clID;
         public PointType? pointType;
-        public double value;
         private double[] featureArray;
         public double[] FeatureArray { get => this.featureArray; set => this.featureArray = value; }
         public int StudentID { get; set; }
@@ -30,29 +36,15 @@ namespace RecommendationEngine
         /// Check the distance between the objects array and the yPoint array
         /// </summary>
         /// <param name="yPoint"></param>
-        /// <param name="equation"></param>
-        /// <returns></returns>
-        public double DistanceTo(Point yPoint, string equation = "euclidean")
+        public double DistanceTo(Point yPoint)
         {
-            double distance;
-            switch (equation)
+            double sigma = 0.0;
+            for (int i = 0; i < this.featureArray.Length; i++)
             {
-                case "euclidean":
-                    double sigma = 0.0;
-
-                    for (int i = 0; i < this.featureArray.Length; i++)
-                    {
-                        sigma += Math.Pow(this.featureArray[i] - yPoint.featureArray[i], 2);
-                    }
-                    distance = Math.Sqrt(sigma);
-                    return distance;
-                case "minkowksi":
-                    distance = 1;
-                    return distance;
-                default:
-                    distance = 1;
-                    return distance;
+                sigma += Math.Pow(this.featureArray[i] - yPoint.featureArray[i], 2);
             }
+            double distance = Math.Sqrt(sigma);
+            return distance;
         }
     }
 }

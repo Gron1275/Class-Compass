@@ -10,28 +10,17 @@ namespace RecommendationEngine
             Console.WriteLine($"Generating {numPoints} points...");
             Random rand = new Random();
 
-                double RandDouble()
-                {
-                    double randNum = rand.Next(50, 101);
-                    if (randNum < 49)
-                    {
-                        randNum = 0;
-                        return randNum;
-                    }
-                    else
-                    {
-                        return randNum / 100;
-                    }
-                }
-                for (int i = 0; i < numPoints; i++)
-                {
-                    double doubleRandOne = RandDouble();
-                    double doubleRandTwo = RandDouble();
-                    double doubleRandThree = RandDouble();
-                    double[] array = new double[] { doubleRandOne, doubleRandTwo, doubleRandThree };
+            double RandDouble() => rand.Next(50, 101) / 100;
 
-                    StudentPointList.Add(new Point(i, array));
-                }
+            for (int i = 0; i < numPoints; i++)
+            {
+                double doubleRandOne = RandDouble();
+                double doubleRandTwo = RandDouble();
+                double doubleRandThree = RandDouble();
+                double[] array = new double[] { doubleRandOne, doubleRandTwo, doubleRandThree };
+
+                StudentPointList.Add(new Point(i, array));
+            }
             Console.WriteLine("Points Generated.");
         }
         static void Main()
@@ -40,8 +29,9 @@ namespace RecommendationEngine
 
             Console.WriteLine("Welcome, User");
             Console.Write("\nHow many test points would you like to generate?: ");
+            
             int numPoints = Convert.ToInt32(Console.ReadLine());
-
+            
             GeneratePoints(ref StudentPointList, numPoints);
 
             Console.Clear();
@@ -61,7 +51,7 @@ namespace RecommendationEngine
             /// <summary>
             /// Used for separating out the clustered lists and printing their contents before displaying amt of noise
             /// </summary>
-            Dictionary<int, List<Point>> clusteredPoints = dbScan.ReturnClusteredPoints();
+            Dictionary<int, List<Point>> clusteredPoints = dbScan.ClusteredPoints;
 
             List<Point> GetList(int listID) => clusteredPoints[listID];
 
