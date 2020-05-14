@@ -49,9 +49,9 @@ namespace RecommendationEngine
                     double doubleRandOne = RandDouble();
                     double doubleRandTwo = RandDouble();
                     double doubleRandThree = RandDouble();
+                    double[] array = new double[] { doubleRandOne, doubleRandTwo, doubleRandThree };
 
-                    Matrix matrix = new Matrix(new double[,] { { doubleRandOne, doubleRandTwo, doubleRandThree } });
-                    StudentPointList.Add(new Point(i, matrix));
+                    StudentPointList.Add(new Point(i, array));
                 }
                 csvService.WriteListToFile(StudentPointList, @"C:\Users\Grennon\source\repos\RecommendationEngine\outfile.csv");
             }
@@ -67,7 +67,7 @@ namespace RecommendationEngine
             /// <summary>
             /// Create an instance of the DBSCAN class and find the ideal value for minK before running
             /// </summary>
-            int idealMinK = StudentPointList[0].featMatrix.GetColumns() * 2;
+            int idealMinK = StudentPointList[0].featureArray.Length * 2;
             DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.089, inputMinNeighbor: idealMinK);
             //Best value for minK is 2 * the amt of dimensions
             dbScan.Run();
@@ -86,7 +86,7 @@ namespace RecommendationEngine
                 Console.WriteLine($"Cluster: {listID}");
                 foreach (Point current in GetList(listID))
                 {
-                    Console.WriteLine($"ID: {current.StudentID} - Matrix: {current.ShowMatrix()}");
+                    Console.WriteLine($"ID: {current.StudentID} - Array: {current.ShowArray()}");
                 }
             }
             for (int i = 0; i < dbScan.ClusterAmount; i++)

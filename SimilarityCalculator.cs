@@ -35,7 +35,7 @@ namespace RecommendationEngine
                 return average;
             }//I'm gonna need to abstract this out and have a single method running the correlation
              //for the inputPoint and whatever row of the list that the iterator is on.
-            this.inputHat = GetHat(this.pointInQuestion.featMatrix);
+            //this.inputHat = GetHat(this.pointInQuestion.featMatrix); CHANGE FOR ARRAY RATHER THAN MATRIX
 
             //double topSigma = 0.0;
 

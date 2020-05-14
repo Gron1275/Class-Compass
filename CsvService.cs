@@ -33,9 +33,9 @@ namespace RecommendationEngine
                 foreach (Point point in inputList)
                 {
                     csvWriter.WriteField(point.StudentID);
-                    csvWriter.WriteField(point.featMatrix[0, 0]);
-                    csvWriter.WriteField(point.featMatrix[0, 1]);
-                    csvWriter.WriteField(point.featMatrix[0, 2]);
+                    csvWriter.WriteField(point.featureArray[0]);
+                    csvWriter.WriteField(point.featureArray[1]);
+                    csvWriter.WriteField(point.featureArray[2]);
                     csvWriter.NextRecord();
                 }
 

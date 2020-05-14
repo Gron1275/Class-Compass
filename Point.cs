@@ -10,17 +10,9 @@ namespace RecommendationEngine
         public int? clID;
         public PointType? pointType;
         public double value;
-        private int studentID;
-        public double PartOne { get; set; }
-        public double PartTwo { get; set; }
-        public double PartThree { get; set; }
         public double[] featureArray;
-        public int StudentID { get => this.studentID; set => this.studentID = value; }
+        public int StudentID { get; set; }
 
-        public Matrix featMatrix;
-
-
-        public double[] classArray;
         //For pointType, 0 will signify noise, 1 a border point, and 2 a core point
         //For clID, "n" will signify which cluster the point is in
         public Point(int inStID, double inValue)
@@ -30,15 +22,22 @@ namespace RecommendationEngine
             this.clID = null;
             this.pointType = null;
         }
-        public Point(Matrix inMatrix)
+        //public Point(Matrix inMatrix)
+        //{
+        //    this.featMatrix = inMatrix ?? throw new ArgumentNullException(nameof(inMatrix));
+        //    this.clID = null;
+        //    this.pointType = null;
+        //}
+        //public Point(int inStID, Matrix inMatrix)
+        //{
+        //    this.featMatrix = inMatrix;
+        //    this.StudentID = inStID;
+        //    this.clID = null;
+        //    this.pointType = null;
+        //}
+        public Point(int inStID, double[] inFeatureArray)
         {
-            this.featMatrix = inMatrix ?? throw new ArgumentNullException(nameof(inMatrix));
-            this.clID = null;
-            this.pointType = null;
-        }
-        public Point(int inStID, Matrix inMatrix)
-        {
-            this.featMatrix = inMatrix;
+            this.featureArray = inFeatureArray;
             this.StudentID = inStID;
             this.clID = null;
             this.pointType = null;
@@ -48,19 +47,20 @@ namespace RecommendationEngine
             this.clID = null;
             this.pointType = null;
         }
-        public string ShowMatrix()
-        {
-            List<double> final = new List<double>();
-            int len = this.featMatrix.GetColumns();
-            string finalString;
-            for (int i = 0; i < len; i++)
-            {
-                final.Add(this.featMatrix[0, i]);
-            }
-            finalString = string.Join(",", final.ToArray());
+        //public string ShowMatrix()
+        //{
+        //    List<double> final = new List<double>();
+        //    int len = this.featMatrix.GetColumns();
+        //    string finalString;
+        //    for (int i = 0; i < len; i++)
+        //    {
+        //        final.Add(this.featMatrix[0, i]);
+        //    }
+        //    finalString = string.Join(",", final.ToArray());
 
-            return finalString;
-        }
+        //    return finalString;
+        //}
+        public string ShowArray() => string.Join(",", this.featureArray);
         // if currentPoint.DistanceTo(point[i]) <= eps ...
         /// <summary>
         /// Check the distance between the objects array and the yPoint array
@@ -74,15 +74,16 @@ namespace RecommendationEngine
 
             if (equation == "euclidean")
             {
-                int columns = (this.featMatrix.GetColumns() == yPoint.featMatrix.GetColumns()) ? this.featMatrix.GetColumns() : 0;
+                //int columns = (this.featMatrix.GetColumns() == yPoint.featMatrix.GetColumns()) ? this.featMatrix.GetColumns() : 0;
+
                 //Console.WriteLine($"Rows of matrix: {rows} - Columns of matrix: {this.featMatrix.GetColumns()}");
                 //int columns = (this.featMatrix.GetColumns() == yPoint.featMatrix.GetColumns()) ? this.featMatrix.GetColumns() : 0;
                 //might not need columns bc its only going thru one row of the big matrix. however maybe i hafta iterate thru columns rather than rows.
                 double sigma = 0.0;
 
-                for (int i = 0; i < columns; i++)
+                for (int i = 0; i < this.featureArray.Length; i++)
                 {
-                    sigma += Math.Pow(this.featMatrix[0, i] - yPoint.featMatrix[0, i], 2);
+                    sigma += Math.Pow(this.featureArray[i] - yPoint.featureArray[i], 2);
                 }
                 distance = Math.Sqrt(sigma);
                 return distance;
