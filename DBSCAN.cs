@@ -69,7 +69,6 @@ namespace RecommendationEngine
 
         protected virtual void OnClusterIDChanged() => ClusterIDChanged?.Invoke(this, EventArgs.Empty);
 
-
         public delegate void DBScanFinishedEventHandler(object source, ClusterEventArgs args);
 
         public event DBScanFinishedEventHandler DBScanFinished;

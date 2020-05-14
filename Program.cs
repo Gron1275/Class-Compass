@@ -6,30 +6,20 @@ namespace RecommendationEngine
 {
     class Program
     {
-        static void Main()
+        static void AskForPoints(ref List<Point> StudentPointList)
         {
-            #region DataFrame Code
-            PrimitiveDataFrameColumn<int> StudentID = new PrimitiveDataFrameColumn<int>("Student ID");
-            PrimitiveDataFrameColumn<double> mathComp = new PrimitiveDataFrameColumn<double>("Mathematical Competency");
-            PrimitiveDataFrameColumn<double> litComp = new PrimitiveDataFrameColumn<double>("Literary Competency");
-            PrimitiveDataFrameColumn<double> socComp = new PrimitiveDataFrameColumn<double>("Social Studies Competency");
-            PrimitiveDataFrameColumn<double> scienceComp = new PrimitiveDataFrameColumn<double>("Science Competency");       
-            DataFrame dataFrame = new DataFrame(StudentID, mathComp, litComp, socComp, scienceComp);
-            #endregion
-
-            #region Point Generation
-            /// <summary>
-            /// Generates random points to be used for testing the unsupervised learning algorithm.
-            /// Then it adds them to the StudentPointList for use in the dbscan
-            /// OR, read points from a csv file and add them to the StudentPointList instead
-            /// </summary>
-            bool needPoints = true;
             CsvService csvService = new CsvService();
 
-            List<Point> StudentPointList = new List<Point>();
-            if (needPoints)
-            {
-                Random rand = new Random();
+            System.Console.Write("\nPath to csv list: ");
+            string filePath = Console.ReadLine();
+            StudentPointList = csvService.ReadListFromFile(filePath);//Doesn't actually work yet :(
+
+        }
+        static void GeneratePoints(ref List<Point> StudentPointList, int numPoints)
+        {
+            CsvService csvService = new CsvService();
+            System.Console.WriteLine($"Generating {numPoints} points...");
+            Random rand = new Random();
 
                 double RandDouble()
                 {
@@ -44,7 +34,7 @@ namespace RecommendationEngine
                         return randNum / 100;
                     }
                 }
-                for (int i = 0; i < 2000; i++)
+                for (int i = 0; i < numPoints; i++)
                 {
                     double doubleRandOne = RandDouble();
                     double doubleRandTwo = RandDouble();
@@ -53,16 +43,41 @@ namespace RecommendationEngine
 
                     StudentPointList.Add(new Point(i, array));
                 }
-                csvService.WriteListToFile(StudentPointList, @"C:\Users\Grennon\source\repos\RecommendationEngine\outfile.csv");
+            System.Console.WriteLine("Points Generated.");
+            Console.Write("Would you like to save points to file? [Y/N]: ");
+            string answer = Console.ReadLine();
+            if (answer == "Y" || answer == "y")
+            {
+                System.Console.Write("Save points to (filepath): ");
+                string filePath = Console.ReadLine();
+                csvService.WriteListToFile(StudentPointList, filePath);
+            }  
+        }
+        static void Main()
+        {
+            System.Console.WriteLine("Welcome, User");
+            System.Console.Write("Would you like to load points? [yes/no]: ");
+            string response = Console.ReadLine();
+            List<Point> StudentPointList = new List<Point>();
+
+            switch (response)
+            {
+                case "yes":
+                case "Yes":
+                case "y":
+                case "Y":
+                    AskForPoints(ref StudentPointList);
+                    break;
+                default:
+                    Console.Write("\nHow many test points would you like to generate?: ");
+                    int numPoints = Convert.ToInt32(Console.ReadLine());
+                    GeneratePoints(ref StudentPointList, numPoints);
+                    break;
             }
 
-            ////CsvService csvService = new CsvService();
-            //csvService.WriteListToFile(StudentPointList, @"C:\Users\Grennon\source\repos\RecommendationEngine\outfile.csv");
-            //csvService.ReadListFromFile(@"C:\Users\Grennon\source\repos\RecommendationEngine\outfile.csv");
-
+            Console.Clear();
+            System.Console.WriteLine("Running clustering algorithm on points...");            
             
-            #endregion
-
             #region DBSCAN Code
             /// <summary>
             /// Create an instance of the DBSCAN class and find the ideal value for minK before running
@@ -79,7 +94,20 @@ namespace RecommendationEngine
             /// </summary>
             Dictionary<int, List<Point>> clusteredPoints = dbScan.ReturnClusteredPoints();
 
+            //List<Point> GetList(int listID)
+            //{
+            //    try
+            //    {
+            //        return clusteredPoints[listID];
+            //    }
+            //    catch (IndexOutOfRangeException e)
+            //    {
+
+            //        throw e;
+            //    }
+            //}
             List<Point> GetList(int listID) => clusteredPoints[listID];
+
 
             void PrintList(int listID)
             {
@@ -89,13 +117,22 @@ namespace RecommendationEngine
                     Console.WriteLine($"ID: {current.StudentID} - Array: {current.ShowArray()}");
                 }
             }
-            for (int i = 0; i < dbScan.ClusterAmount; i++)
-            {
-                PrintList(i);
-            }
+            System.Console.WriteLine($"Clusters created: {dbScan.ClusterAmount}");
             Console.WriteLine($"Noise Amount: {dbScan.NoiseAmount}");
             double noisePercentage = ((double)dbScan.NoiseAmount / StudentPointList.Count) * 100;
             Console.WriteLine($"Noise Percentage: {Math.Floor(noisePercentage)}%");
+            System.Console.Write("Would you like to view contents of a cluster? [Y/N]: ");
+            string input = Console.ReadLine();
+            do
+            {
+                Console.Clear();
+                Console.WriteLine($"Amount of clusters: {dbScan.ClusterAmount}");
+                Console.Write("Input cluster id to view: ");
+                int clusterToView = Convert.ToInt32(Console.ReadLine());
+                PrintList(clusterToView);
+                Console.Write("\nView another cluster? [Y/N]: ");
+                input = Console.ReadLine();
+            } while (input == "Y");
             #endregion
 
             //SimilarityCalculator similarityCalculator = new SimilarityCalculator(clusteredPoints[1], clusteredPoints);

@@ -44,7 +44,7 @@ namespace RecommendationEngine
                 File.WriteAllText(filePath, result);
             }
         }
-        public void ReadListFromFile(string filePath)
+        public List<Point> ReadListFromFile(string filePath)
         {
             //var file = File.ReadAllText(filePath);
             //var csvFile = File.OpenRead(filePath);
@@ -52,9 +52,10 @@ namespace RecommendationEngine
             //using (StreamReader reader = new StreamReader(memory))
             //using (CsvReader csvReader = new CsvReader(reader, System.Globalization.CultureInfo.CurrentCulture))
             //{
-            
+
             //}
             //Console.WriteLine(file);
+            List<Point> localPointList = new List<Point>();
             using (var sr = new StreamReader(filePath))
             {
                 var reader = new CsvReader(sr, System.Globalization.CultureInfo.CurrentCulture);
@@ -62,11 +63,12 @@ namespace RecommendationEngine
                 //CSVReader will now read the whole file into an enumerable
                 IEnumerable<Point> records = reader.GetRecords<Point>();
                 
-                foreach (Point record in records.Take(10))
+                foreach (Point record in records)
                 {
-                    Console.WriteLine($"Point ID: {record.StudentID}");
+                    localPointList.Add(record);
                 }
             }
+            return localPointList;
         }
     }
 }
