@@ -5,18 +5,8 @@ namespace RecommendationEngine
 {
     class Program
     {
-        static void AskForPoints(ref List<Point> StudentPointList)
-        {
-            CsvService csvService = new CsvService();
-
-            Console.Write("\nPath to csv list: ");
-            string filePath = Console.ReadLine();
-            StudentPointList = csvService.ReadListFromFile(filePath);//Doesn't actually work yet :(
-
-        }
         static void GeneratePoints(ref List<Point> StudentPointList, int numPoints)
         {
-            CsvService csvService = new CsvService();
             Console.WriteLine($"Generating {numPoints} points...");
             Random rand = new Random();
 
@@ -43,36 +33,16 @@ namespace RecommendationEngine
                     StudentPointList.Add(new Point(i, array));
                 }
             Console.WriteLine("Points Generated.");
-            Console.Write("Would you like to save points to file? [Y/N]: ");
-            string answer = Console.ReadLine();
-            if (answer == "Y" || answer == "y")
-            {
-                Console.Write("Save points to (filepath): ");
-                string filePath = Console.ReadLine();
-                csvService.WriteListToFile(StudentPointList, filePath);
-            }  
         }
         static void Main()
         {
-            Console.WriteLine("Welcome, User");
-            Console.Write("Would you like to load points? [Y/N]: ");
-            string response = Console.ReadLine();
             List<Point> StudentPointList = new List<Point>();
 
-            switch (response)
-            {
-                case "yes":
-                case "Yes":
-                case "y":
-                case "Y":
-                    AskForPoints(ref StudentPointList);
-                    break;
-                default:
-                    Console.Write("\nHow many test points would you like to generate?: ");
-                    int numPoints = Convert.ToInt32(Console.ReadLine());
-                    GeneratePoints(ref StudentPointList, numPoints);
-                    break;
-            }
+            Console.WriteLine("Welcome, User");
+            Console.Write("\nHow many test points would you like to generate?: ");
+            int numPoints = Convert.ToInt32(Console.ReadLine());
+
+            GeneratePoints(ref StudentPointList, numPoints);
 
             Console.Clear();
             Console.WriteLine("Running clustering algorithm on points...");            
