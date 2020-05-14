@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace RecommendationEngine
 {
-    public class CsvService //Prolly should change. bad naming convention to start with "I" if not an interface 
+    public class CsvService
     {
         private List<Point> localPoints;
         public CsvService(List<Point> inputList)
@@ -19,29 +19,24 @@ namespace RecommendationEngine
         }
         public void WriteListToFile(List<Point> inputList, string filePath)
         {
-            using (MemoryStream memory = new MemoryStream())
-            using (StreamWriter writer = new StreamWriter(memory))
+            using (StreamWriter writer = new StreamWriter(filePath))
             using (CsvWriter csvWriter = new CsvWriter(writer, System.Globalization.CultureInfo.CurrentCulture))
             {
-                csvWriter.Configuration.Delimiter = ",";
-                csvWriter.WriteField("StudentID");
-                csvWriter.WriteField("PartOne");
-                csvWriter.WriteField("PartTwo");
-                csvWriter.WriteField("PartThree");
+                csvWriter.Configuration.Delimiter = ";";
+                //csvWriter.WriteHeader("StudentID");
+                csvWriter.WriteField("FeatureArray 1");
+                csvWriter.WriteField("FeatureArray 1");
+                csvWriter.WriteField("FeatureArray 1");
                 csvWriter.NextRecord();
 
                 foreach (Point point in inputList)
                 {
-                    csvWriter.WriteField(point.StudentID);
-                    csvWriter.WriteField(point.featureArray[0]);
-                    csvWriter.WriteField(point.featureArray[1]);
-                    csvWriter.WriteField(point.featureArray[2]);
+                    csvWriter.WriteField(point.StudentID); //issue is is that csvwriter is interpreting array as csvs and not working
+                    csvWriter.WriteField(point.FeatureArray[0]);
+                    csvWriter.WriteField(point.FeatureArray[1]);
+                    csvWriter.WriteField(point.FeatureArray[2]);
                     csvWriter.NextRecord();
                 }
-
-                writer.Flush();
-                string result = Encoding.UTF8.GetString(memory.ToArray());
-                File.WriteAllText(filePath, result);
             }
         }
         public List<Point> ReadListFromFile(string filePath)
@@ -62,10 +57,10 @@ namespace RecommendationEngine
 
                 //CSVReader will now read the whole file into an enumerable
                 IEnumerable<Point> records = reader.GetRecords<Point>();
-                
-                foreach (Point record in records)
+
+                while (reader.Read())
                 {
-                    localPointList.Add(record);
+                    localPointList.Add(reader.GetRecord<Point>());
                 }
             }
             return localPointList;

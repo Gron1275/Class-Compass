@@ -9,7 +9,7 @@ namespace RecommendationEngine
         {
             CsvService csvService = new CsvService();
 
-            System.Console.Write("\nPath to csv list: ");
+            Console.Write("\nPath to csv list: ");
             string filePath = Console.ReadLine();
             StudentPointList = csvService.ReadListFromFile(filePath);//Doesn't actually work yet :(
 
@@ -81,7 +81,7 @@ namespace RecommendationEngine
             /// <summary>
             /// Create an instance of the DBSCAN class and find the ideal value for minK before running
             /// </summary>
-            int idealMinK = StudentPointList[0].featureArray.Length * 2;
+            int idealMinK = StudentPointList[0].FeatureArray.Length * 2;
             DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.05, inputMinNeighbor: idealMinK);
             //Best value for minK is 2 * the amt of dimensions
             dbScan.Run();
@@ -137,18 +137,18 @@ namespace RecommendationEngine
 
             //SimilarityCalculator similarityCalculator = new SimilarityCalculator(clusteredPoints[1], clusteredPoints);
 
-            /*
-            List<List<Point>> listOfListOfPoints = new List<List<Point>>();
+            
 
-            for (double epsK = 0.1; epsK < 1.0; epsK += 0.1)
-            {
-                for (int minK = 5; minK < 10; minK++)
-                {
-                    DBSCAN findValsDBSCAN = new DBSCAN(StudentPointList, epsK, minK);
-                    Console.WriteLine($"Parameters: eps [{epsK}], minK [{minK}] | NOISE: {findValsDBSCAN.Noise}");
-                }
-            }
-            */
+            //for (double epsK = 0.1; epsK < 1.0; epsK += 0.1)
+            //{
+            //    for (int minK = 5; minK < 10; minK++)
+            //    {
+            //        DBSCAN findValsDBSCAN = new DBSCAN(StudentPointList, epsK, minK);
+            //        findValsDBSCAN.Run();
+            //        Console.WriteLine($"");
+            //    }
+            //}
+            
         }
     }
 }

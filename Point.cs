@@ -9,8 +9,10 @@ namespace RecommendationEngine
         public int? clID;
         public PointType? pointType;
         public double value;
-        public double[] featureArray;
+        private double[] featureArray;
+        public double[] FeatureArray { get => this.featureArray; set => this.featureArray = value; }
         public int StudentID { get; set; }
+
         #endregion
 
         //For pointType, 0 will signify noise, 1 a border point, and 2 a core point
