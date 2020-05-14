@@ -5,24 +5,16 @@ namespace RecommendationEngine
 {
     public class Point //Could substitute person for point in final
     {
-
-        //Could make this (double value vafriable) a vector w/ all the diff grades & classes
+        #region Assets
         public int? clID;
         public PointType? pointType;
         public double value;
         public double[] featureArray;
         public int StudentID { get; set; }
+        #endregion
 
         //For pointType, 0 will signify noise, 1 a border point, and 2 a core point
         //For clID, "n" will signify which cluster the point is in
-        public Point(int inStID, double inValue)
-        {
-            this.StudentID = inStID;
-            this.value = inValue;
-            this.clID = null;
-            this.pointType = null;
-        }
-
         public Point(int inStID, double[] inFeatureArray)
         {
             this.featureArray = inFeatureArray;
@@ -30,12 +22,6 @@ namespace RecommendationEngine
             this.clID = null;
             this.pointType = null;
         }
-        public Point()
-        {
-            this.clID = null;
-            this.pointType = null;
-        }
-
         public string ShowArray() => string.Join(",", this.featureArray);
         // if currentPoint.DistanceTo(point[i]) <= eps ...
         /// <summary>
