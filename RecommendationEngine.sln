@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecommendationEngine", "RecommendationEngine.csproj", "{8C4D1A2E-17BB-417C-BCD9-A765A5E6B39A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecommendationEngine", "RecommendationEngine.csproj", "{8C4D1A2E-17BB-417C-BCD9-A765A5E6B39A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D156B401-F668-4431-BC66-2DEDABFC081B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

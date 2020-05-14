@@ -10,7 +10,7 @@ namespace RecommendationEngine
             Console.WriteLine($"Generating {numPoints} points...");
             Random rand = new Random();
 
-            double RandDouble() => rand.Next(50, 101) / 100;
+            double RandDouble() => rand.Next(50, 101) / 100.0;
 
             for (int i = 0; i < numPoints; i++)
             {
@@ -80,6 +80,9 @@ namespace RecommendationEngine
                 Console.Write("\nView another cluster? [Y/N]: ");
                 input = Console.ReadLine();
             }
+            Console.Clear();
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
             #endregion
         }
     }
