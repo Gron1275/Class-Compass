@@ -22,19 +22,7 @@ namespace RecommendationEngine
             this.clID = null;
             this.pointType = null;
         }
-        //public Point(Matrix inMatrix)
-        //{
-        //    this.featMatrix = inMatrix ?? throw new ArgumentNullException(nameof(inMatrix));
-        //    this.clID = null;
-        //    this.pointType = null;
-        //}
-        //public Point(int inStID, Matrix inMatrix)
-        //{
-        //    this.featMatrix = inMatrix;
-        //    this.StudentID = inStID;
-        //    this.clID = null;
-        //    this.pointType = null;
-        //}
+
         public Point(int inStID, double[] inFeatureArray)
         {
             this.featureArray = inFeatureArray;
@@ -47,19 +35,7 @@ namespace RecommendationEngine
             this.clID = null;
             this.pointType = null;
         }
-        //public string ShowMatrix()
-        //{
-        //    List<double> final = new List<double>();
-        //    int len = this.featMatrix.GetColumns();
-        //    string finalString;
-        //    for (int i = 0; i < len; i++)
-        //    {
-        //        final.Add(this.featMatrix[0, i]);
-        //    }
-        //    finalString = string.Join(",", final.ToArray());
 
-        //    return finalString;
-        //}
         public string ShowArray() => string.Join(",", this.featureArray);
         // if currentPoint.DistanceTo(point[i]) <= eps ...
         /// <summary>
@@ -74,11 +50,6 @@ namespace RecommendationEngine
 
             if (equation == "euclidean")
             {
-                //int columns = (this.featMatrix.GetColumns() == yPoint.featMatrix.GetColumns()) ? this.featMatrix.GetColumns() : 0;
-
-                //Console.WriteLine($"Rows of matrix: {rows} - Columns of matrix: {this.featMatrix.GetColumns()}");
-                //int columns = (this.featMatrix.GetColumns() == yPoint.featMatrix.GetColumns()) ? this.featMatrix.GetColumns() : 0;
-                //might not need columns bc its only going thru one row of the big matrix. however maybe i hafta iterate thru columns rather than rows.
                 double sigma = 0.0;
 
                 for (int i = 0; i < this.featureArray.Length; i++)

@@ -68,7 +68,7 @@ namespace RecommendationEngine
             /// Create an instance of the DBSCAN class and find the ideal value for minK before running
             /// </summary>
             int idealMinK = StudentPointList[0].featureArray.Length * 2;
-            DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.089, inputMinNeighbor: idealMinK);
+            DBSCAN dbScan = new DBSCAN(StudentPointList, inputEpsilon: 0.05, inputMinNeighbor: idealMinK);
             //Best value for minK is 2 * the amt of dimensions
             dbScan.Run();
             #endregion
