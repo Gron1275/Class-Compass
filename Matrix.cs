@@ -1,6 +1,6 @@
 ﻿namespace RecommendationEngine
 {
-    public class Matrix : ILinearAlgebra
+    public class Matrix
     {
         //<summary>
         //I created this class because, while at it's core it is little more than an 2d double array (int[,]),

@@ -24,6 +24,7 @@ namespace RecommendationEngine
 
         public int NoiseAmount => this.clusterLogger.Noise.Count;
         #endregion
+
         /// <summary>
         /// Constructor for DBSCAN Class. 
         /// </summary>

@@ -14,6 +14,7 @@ namespace RecommendationEngine
         public double PartOne { get; set; }
         public double PartTwo { get; set; }
         public double PartThree { get; set; }
+        public double[] featureArray;
         public int StudentID { get => this.studentID; set => this.studentID = value; }
 
         public Matrix featMatrix;
@@ -81,7 +82,7 @@ namespace RecommendationEngine
 
                 for (int i = 0; i < columns; i++)
                 {
-                    sigma += Math.Pow((this.featMatrix[0, i] - yPoint.featMatrix[0, i]), 2);
+                    sigma += Math.Pow(this.featMatrix[0, i] - yPoint.featMatrix[0, i], 2);
                 }
                 distance = Math.Sqrt(sigma);
                 return distance;
