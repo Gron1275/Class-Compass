@@ -13,6 +13,7 @@ namespace RecommendationEngine
             if (plane == "vertical")
             {
                 this.vectorArray = new double[dimensions, 1];
+                ////////
             }
             else
             {
