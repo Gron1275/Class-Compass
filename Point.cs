@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RecommendationEngine
 {
-    public class Point //Could substitute person for point in final
+    public class Point
     {
         #region Assets
         public int? clID;

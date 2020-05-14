@@ -45,14 +45,7 @@ namespace RecommendationEngine
         public DBSCAN(List<Point> inputDataset, double inputEpsilon, int inputMinNeighbor, string inMetric = "Euclidean")
         {
             this.points = inputDataset;
-            if (inputEpsilon > 0)
-            {
-                this.epsilon = inputEpsilon;
-            }
-            else
-            {
-                Console.WriteLine("epsilon value must be greater than zero");
-            }
+            this.epsilon = inputEpsilon;
 
             this.minNeighbor = inputMinNeighbor;
 
@@ -95,18 +88,13 @@ namespace RecommendationEngine
                 Point currentPoint = this.points[i];
                 if (currentPoint.clID == null)
                 {
-                    if (ExpandCluster(ref currentPoint, ClusterID) == true) //IDK if ref is necessary, I need to make sure value of point is changed 
-                                                                            //and the change is present in the this.points
+                    if (ExpandCluster(ref currentPoint, ClusterID) == true)
                     {
                         OnClusterIDChanged();
 
                         ClusterID += 1;
 
                         this.getCoresRun = true;
-                    }
-                    else
-                    {
-                        //Console.WriteLine($"Point {i} failed the vibe check");
                     }
                 }
             }
