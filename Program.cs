@@ -17,7 +17,7 @@ namespace RecommendationEngine
         static void GeneratePoints(ref List<Point> StudentPointList, int numPoints)
         {
             CsvService csvService = new CsvService();
-            System.Console.WriteLine($"Generating {numPoints} points...");
+            Console.WriteLine($"Generating {numPoints} points...");
             Random rand = new Random();
 
                 double RandDouble()
@@ -42,20 +42,20 @@ namespace RecommendationEngine
 
                     StudentPointList.Add(new Point(i, array));
                 }
-            System.Console.WriteLine("Points Generated.");
+            Console.WriteLine("Points Generated.");
             Console.Write("Would you like to save points to file? [Y/N]: ");
             string answer = Console.ReadLine();
             if (answer == "Y" || answer == "y")
             {
-                System.Console.Write("Save points to (filepath): ");
+                Console.Write("Save points to (filepath): ");
                 string filePath = Console.ReadLine();
                 csvService.WriteListToFile(StudentPointList, filePath);
             }  
         }
         static void Main()
         {
-            System.Console.WriteLine("Welcome, User");
-            System.Console.Write("Would you like to load points? [Y/N]: ");
+            Console.WriteLine("Welcome, User");
+            Console.Write("Would you like to load points? [Y/N]: ");
             string response = Console.ReadLine();
             List<Point> StudentPointList = new List<Point>();
 
@@ -75,7 +75,7 @@ namespace RecommendationEngine
             }
 
             Console.Clear();
-            System.Console.WriteLine("Running clustering algorithm on points...");            
+            Console.WriteLine("Running clustering algorithm on points...");            
             
             #region DBSCAN Code
             /// <summary>
@@ -103,12 +103,12 @@ namespace RecommendationEngine
                     Console.WriteLine($"ID: {current.StudentID} - Array: {current.ShowArray()}");
                 }
             }
-            System.Console.WriteLine($"Clusters created: {dbScan.ClusterAmount}");
+            Console.WriteLine($"Clusters created: {dbScan.ClusterAmount}");
             Console.WriteLine($"DBSCAN RUNTIME with {StudentPointList.Count} points: {dbScan.timeElapsed}");
             Console.WriteLine($"Noise Amount: {dbScan.NoiseAmount}");
             double noisePercentage = ((double)dbScan.NoiseAmount / StudentPointList.Count) * 100;
             Console.WriteLine($"Noise Percentage: {Math.Floor(noisePercentage)}%");
-            System.Console.Write("Would you like to view contents of a cluster? [Y/N]: ");
+            Console.Write("Would you like to view contents of a cluster? [Y/N]: ");
             string input = Console.ReadLine();
             while (input == "Y" || input == "y")
             {
