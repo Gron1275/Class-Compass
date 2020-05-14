@@ -20,29 +20,30 @@ namespace RecommendationEngine
 
         public void CalculatePointSimilarity()
         {
+            ///<summary>UPDATE THIS FOR DOUBLE ARRAY INSTEAD OF MATRIX!!!!!!!!</summary>
             //Put in pierson correlation equation and maybe manhatten equation as well.
-            List<Point> tempList = new List<Point>(); //Create list that doesn't contain pointInQuestion
-            tempList = this.clusterList.Where(qPoint => qPoint != this.pointInQuestion).ToList();
-            double GetHat(Matrix inputPointMatrix)
-            {
-                double sigma = 0.0;
-                double average;
-                for (int i = 0; i < inputPointMatrix.GetColumns(); i++)
-                {
-                    sigma += inputPointMatrix[0, i];
-                }
-                average = sigma / (double)inputPointMatrix.GetColumns();
-                return average;
-            }//I'm gonna need to abstract this out and have a single method running the correlation
-             //for the inputPoint and whatever row of the list that the iterator is on.
-            //this.inputHat = GetHat(this.pointInQuestion.featMatrix); CHANGE FOR ARRAY RATHER THAN MATRIX
+            //List<Point> tempList = new List<Point>(); //Create list that doesn't contain pointInQuestion
+            //tempList = this.clusterList.Where(qPoint => qPoint != this.pointInQuestion).ToList();
+            //double GetHat(Matrix inputPointMatrix)
+            //{
+            //    double sigma = 0.0;
+            //    double average;
+            //    for (int i = 0; i < inputPointMatrix.GetColumns(); i++)
+            //    {
+            //        sigma += inputPointMatrix[0, i];
+            //    }
+            //    average = sigma / (double)inputPointMatrix.GetColumns();
+            //    return average;
+            //}//I'm gonna need to abstract this out and have a single method running the correlation
+            // //for the inputPoint and whatever row of the list that the iterator is on.
+            ////this.inputHat = GetHat(this.pointInQuestion.featMatrix); CHANGE FOR ARRAY RATHER THAN MATRIX
 
             //double topSigma = 0.0;
 
-            for (int i = 0; i < tempList.Count; i++) //Top half of pierson
-            {
-                double xDifference = i;//shouldnt equal i its just placeholder
-            }
+            //for (int i = 0; i < tempList.Count; i++) //Top half of pierson
+            //{
+            //    double xDifference = i;//shouldnt equal i its just placeholder
+            //}
         }
     }
 }
