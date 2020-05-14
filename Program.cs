@@ -55,7 +55,7 @@ namespace RecommendationEngine
         static void Main()
         {
             System.Console.WriteLine("Welcome, User");
-            System.Console.Write("Would you like to load points? [yes/no]: ");
+            System.Console.Write("Would you like to load points? [Y/N]: ");
             string response = Console.ReadLine();
             List<Point> StudentPointList = new List<Point>();
 
@@ -97,11 +97,11 @@ namespace RecommendationEngine
             //{
             //    try
             //    {
-            //        return clusteredPoints[listID];
+            //        clusteredPoints[listID];
             //    }
             //    catch (IndexOutOfRangeException e)
             //    {
-
+            //        Console.WriteLine("Index out of range");
             //        throw e;
             //    }
             //}
@@ -117,21 +117,22 @@ namespace RecommendationEngine
                 }
             }
             System.Console.WriteLine($"Clusters created: {dbScan.ClusterAmount}");
+            Console.WriteLine($"DBSCAN RUNTIME with {StudentPointList.Count} points: {dbScan.timeElapsed}");
             Console.WriteLine($"Noise Amount: {dbScan.NoiseAmount}");
             double noisePercentage = ((double)dbScan.NoiseAmount / StudentPointList.Count) * 100;
             Console.WriteLine($"Noise Percentage: {Math.Floor(noisePercentage)}%");
             System.Console.Write("Would you like to view contents of a cluster? [Y/N]: ");
             string input = Console.ReadLine();
-            do
+            while (input == "Y" || input == "y")
             {
                 Console.Clear();
                 Console.WriteLine($"Amount of clusters: {dbScan.ClusterAmount}");
                 Console.Write("Input cluster id to view: ");
                 int clusterToView = Convert.ToInt32(Console.ReadLine());
-                PrintList(clusterToView);
+                if (clusterToView < dbScan.ClusterAmount) { PrintList(clusterToView); } else { Console.WriteLine("Error: Index out of Range."); }
                 Console.Write("\nView another cluster? [Y/N]: ");
                 input = Console.ReadLine();
-            } while (input == "Y");
+            }
             #endregion
 
             //SimilarityCalculator similarityCalculator = new SimilarityCalculator(clusteredPoints[1], clusteredPoints);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 namespace RecommendationEngine
 {
@@ -24,6 +25,8 @@ namespace RecommendationEngine
         public int ClusterAmount => this.clusterLogger.clusterCount;
 
         public int NoiseAmount => this.clusterLogger.Noise.Count;
+
+        public double timeElapsed;
         #endregion
 
         /// <summary>
@@ -85,6 +88,8 @@ namespace RecommendationEngine
         /// </summary>
         public void Run()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             int ClusterID = 0;
             for (int i = 0; i < this.points.Count; i++)
             {
@@ -106,6 +111,8 @@ namespace RecommendationEngine
                     }
                 }
             }
+            stopwatch.Stop();
+            this.timeElapsed = stopwatch.ElapsedMilliseconds * 0.001;
             OnDBScanFinished(this.points);
         }
         bool ExpandCluster(ref Point point, int ClusterID)
