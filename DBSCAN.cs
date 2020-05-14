@@ -61,7 +61,6 @@ namespace RecommendationEngine
             this.ClusterIDChanged += clusterLogger.OnClusterIDChanged;
             this.DBScanFinished += clusterLogger.OnDBScanFinished;
         }
-
         #region Event Handlers for partioning clusters and diagnostics
         /// <summary>
         /// Two events for counting the amount of clusters created and a second event that sends the clustered points to the 

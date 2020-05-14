@@ -5,13 +5,13 @@ namespace RecommendationEngine
 {
     class SimilarityCalculator
     {
-        //Could maybe just have the point similarity be within the point class so there would be less files. Might not be good b/c a list of points is required for input
+        #region Assets
         private List<Point> clusterList;
         private Point pointInQuestion;
         private string metric;
         private double inputHat;
         private List<Point> similarityList;
-
+        #endregion
         public SimilarityCalculator(Point inputPoint, List<Point> inputClustList) //inputClustList should be a single cluster's list, not the dict of all clusters
         {
             this.clusterList = inputClustList;

@@ -93,20 +93,7 @@ namespace RecommendationEngine
             /// </summary>
             Dictionary<int, List<Point>> clusteredPoints = dbScan.ReturnClusteredPoints();
 
-            //List<Point> GetList(int listID)
-            //{
-            //    try
-            //    {
-            //        clusteredPoints[listID];
-            //    }
-            //    catch (IndexOutOfRangeException e)
-            //    {
-            //        Console.WriteLine("Index out of range");
-            //        throw e;
-            //    }
-            //}
             List<Point> GetList(int listID) => clusteredPoints[listID];
-
 
             void PrintList(int listID)
             {
@@ -134,21 +121,6 @@ namespace RecommendationEngine
                 input = Console.ReadLine();
             }
             #endregion
-
-            //SimilarityCalculator similarityCalculator = new SimilarityCalculator(clusteredPoints[1], clusteredPoints);
-
-            
-
-            //for (double epsK = 0.1; epsK < 1.0; epsK += 0.1)
-            //{
-            //    for (int minK = 5; minK < 10; minK++)
-            //    {
-            //        DBSCAN findValsDBSCAN = new DBSCAN(StudentPointList, epsK, minK);
-            //        findValsDBSCAN.Run();
-            //        Console.WriteLine($"");
-            //    }
-            //}
-            
         }
     }
 }

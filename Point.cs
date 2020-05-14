@@ -35,26 +35,23 @@ namespace RecommendationEngine
         public double DistanceTo(Point yPoint, string equation = "euclidean")
         {
             double distance;
+            switch (equation)
+            {
+                case "euclidean":
+                    double sigma = 0.0;
 
-            if (equation == "euclidean")
-            {
-                double sigma = 0.0;
-
-                for (int i = 0; i < this.featureArray.Length; i++)
-                {
-                    sigma += Math.Pow(this.featureArray[i] - yPoint.featureArray[i], 2);
-                }
-                distance = Math.Sqrt(sigma);
-                return distance;
-            }
-            else if (equation == "minkowski")
-            {
-                // put in minkowski code
-                return 0;
-            }
-            else
-            {
-                return 0;
+                    for (int i = 0; i < this.featureArray.Length; i++)
+                    {
+                        sigma += Math.Pow(this.featureArray[i] - yPoint.featureArray[i], 2);
+                    }
+                    distance = Math.Sqrt(sigma);
+                    return distance;
+                case "minkowksi":
+                    distance = 1;
+                    return distance;
+                default:
+                    distance = 1;
+                    return distance;
             }
         }
     }
