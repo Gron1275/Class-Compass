@@ -10,16 +10,21 @@ namespace RecommendationEngine
         public int? clID;
         public PointType? pointType;
         public double value;
-        public int stID;
+        private int studentID;
+        public double PartOne { get; set; }
+        public double PartTwo { get; set; }
+        public double PartThree { get; set; }
+        public int StudentID { get => this.studentID; set => this.studentID = value; }
 
         public Matrix featMatrix;
+
 
         public double[] classArray;
         //For pointType, 0 will signify noise, 1 a border point, and 2 a core point
         //For clID, "n" will signify which cluster the point is in
         public Point(int inStID, double inValue)
         {
-            this.stID = inStID;
+            this.StudentID = inStID;
             this.value = inValue;
             this.clID = null;
             this.pointType = null;
@@ -33,7 +38,7 @@ namespace RecommendationEngine
         public Point(int inStID, Matrix inMatrix)
         {
             this.featMatrix = inMatrix;
-            this.stID = inStID;
+            this.StudentID = inStID;
             this.clID = null;
             this.pointType = null;
         }
@@ -62,7 +67,7 @@ namespace RecommendationEngine
         /// <param name="yPoint"></param>
         /// <param name="equation"></param>
         /// <returns></returns>
-        public double DistanceTo(Point yPoint, string equation="euclidean")
+        public double DistanceTo(Point yPoint, string equation = "euclidean")
         {
             double distance;
 

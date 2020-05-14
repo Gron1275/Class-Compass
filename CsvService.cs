@@ -3,6 +3,7 @@ using System.Text;
 using System.IO;
 using CsvHelper;
 using System.Collections.Generic;
+using System.Linq;
 namespace RecommendationEngine
 {
     public class CsvService //Prolly should change. bad naming convention to start with "I" if not an interface 
@@ -24,14 +25,14 @@ namespace RecommendationEngine
             {
                 csvWriter.Configuration.Delimiter = ",";
                 csvWriter.WriteField("StudentID");
-                csvWriter.WriteField("FirstPoint");
-                csvWriter.WriteField("SecondPoint");
-                csvWriter.WriteField("ThirdPoint");
+                csvWriter.WriteField("PartOne");
+                csvWriter.WriteField("PartTwo");
+                csvWriter.WriteField("PartThree");
                 csvWriter.NextRecord();
 
-                foreach (Point point in this.localPoints)
+                foreach (Point point in inputList)
                 {
-                    csvWriter.WriteField(point.stID);
+                    csvWriter.WriteField(point.StudentID);
                     csvWriter.WriteField(point.featMatrix[0, 0]);
                     csvWriter.WriteField(point.featMatrix[0, 1]);
                     csvWriter.WriteField(point.featMatrix[0, 2]);
@@ -45,8 +46,27 @@ namespace RecommendationEngine
         }
         public void ReadListFromFile(string filePath)
         {
-            var file = File.ReadAllText(filePath);
-            Console.WriteLine(file);
+            //var file = File.ReadAllText(filePath);
+            //var csvFile = File.OpenRead(filePath);
+            //using (MemoryStream memory = new MemoryStream())
+            //using (StreamReader reader = new StreamReader(memory))
+            //using (CsvReader csvReader = new CsvReader(reader, System.Globalization.CultureInfo.CurrentCulture))
+            //{
+            
+            //}
+            //Console.WriteLine(file);
+            using (var sr = new StreamReader(filePath))
+            {
+                var reader = new CsvReader(sr, System.Globalization.CultureInfo.CurrentCulture);
+
+                //CSVReader will now read the whole file into an enumerable
+                IEnumerable<Point> records = reader.GetRecords<Point>();
+                
+                foreach (Point record in records.Take(10))
+                {
+                    Console.WriteLine($"Point ID: {record.StudentID}");
+                }
+            }
         }
     }
 }

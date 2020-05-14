@@ -23,42 +23,44 @@ namespace RecommendationEngine
             /// Then it adds them to the StudentPointList for use in the dbscan
             /// OR, read points from a csv file and add them to the StudentPointList instead
             /// </summary>
-            bool needPoints = false;
+            //bool needPoints = true;
             List<Point> StudentPointList = new List<Point>();
-            if (needPoints)
-            {
-                Random rand = new Random();
+            //if (needPoints)
+            //{
+            //    Random rand = new Random();
 
-                double RandDouble()
-                {
-                    double randNum = rand.Next(50, 101);
-                    if (randNum < 49)
-                    {
-                        randNum = 0;
-                        return randNum;
-                    }
-                    else
-                    {
-                        return randNum / 100;
-                    }
-                }
-                for (int i = 0; i < 2000; i++)
-                {
-                    double doubleRandOne = RandDouble();
-                    double doubleRandTwo = RandDouble();
-                    double doubleRandThree = RandDouble();
+            //    double RandDouble()
+            //    {
+            //        double randNum = rand.Next(50, 101);
+            //        if (randNum < 49)
+            //        {
+            //            randNum = 0;
+            //            return randNum;
+            //        }
+            //        else
+            //        {
+            //            return randNum / 100;
+            //        }
+            //    }
+            //    for (int i = 0; i < 2000; i++)
+            //    {
+            //        double doubleRandOne = RandDouble();
+            //        double doubleRandTwo = RandDouble();
+            //        double doubleRandThree = RandDouble();
 
-                    Matrix matrix = new Matrix(new double[,] { { doubleRandOne, doubleRandTwo, doubleRandThree } });
-                    StudentPointList.Add(new Point(i, matrix));
-                }
-                CsvService csvService = new CsvService();
-                csvService.WriteListToFile(StudentPointList, @"C:\Users\Grennon\source\repos\RecommendationEngine\outfile.csv");
-            }
-            else
-            {
-                CsvService csvService = new CsvService();
+            //        Matrix matrix = new Matrix(new double[,] { { doubleRandOne, doubleRandTwo, doubleRandThree } });
+            //        StudentPointList.Add(new Point(i, matrix));
+            //    }
+            //    //CsvService csvService = new CsvService();
+            //    //csvService.WriteListToFile(StudentPointList, @"C:\Users\Grennon\source\repos\RecommendationEngine\outfile.csv");
+            //}
 
-            }
+            ////CsvService csvService = new CsvService();
+            CsvService csvService = new CsvService();
+            //csvService.WriteListToFile(StudentPointList, @"C:\Users\Grennon\source\repos\RecommendationEngine\outfile.csv");
+            csvService.ReadListFromFile(@"C:\Users\Grennon\source\repos\RecommendationEngine\outfile.csv");
+
+            
 
             
             #endregion
@@ -86,7 +88,7 @@ namespace RecommendationEngine
                 Console.WriteLine($"Cluster: {listID}");
                 foreach (Point current in GetList(listID))
                 {
-                    Console.WriteLine($"ID: {current.stID} - Matrix: {current.ShowMatrix()}");
+                    Console.WriteLine($"ID: {current.StudentID} - Matrix: {current.ShowMatrix()}");
                 }
             }
             for (int i = 0; i < dbScan.ClusterAmount; i++)
