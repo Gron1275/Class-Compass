@@ -17,8 +17,7 @@ namespace wholeCodeNamespace
         #region Assets
         public int? clID;
         public PointType? pointType;
-        private double[] featureArray;
-        public double[] FeatureArray { get => this.featureArray; set => this.featureArray = value; }
+        public double[] FeatureArray { get; set; }
         public int StudentID { get; set; }
 
         #endregion
@@ -27,12 +26,12 @@ namespace wholeCodeNamespace
         //For clID, "n" will signify which cluster the point is in
         public Point(int inStID, double[] inFeatureArray)
         {
-            this.featureArray = inFeatureArray;
+            this.FeatureArray = inFeatureArray;
             this.StudentID = inStID;
             this.clID = null;
             this.pointType = null;
         }
-        public string ShowArray() => string.Join(",", this.featureArray);
+        public string ShowArray() => string.Join(",", this.FeatureArray);
         // if currentPoint.DistanceTo(point[i]) <= eps ...
         /// <summary>
         /// Check the distance between the objects array and the yPoint array
@@ -41,9 +40,9 @@ namespace wholeCodeNamespace
         public double DistanceTo(Point yPoint)
         {
             double sigma = 0.0;
-            for (int i = 0; i < this.featureArray.Length; i++)
+            for (int i = 0; i < this.FeatureArray.Length; i++)
             {
-                sigma += Math.Pow(this.featureArray[i] - yPoint.featureArray[i], 2);
+                sigma += Math.Pow(this.FeatureArray[i] - yPoint.FeatureArray[i], 2);
             }
             double distance = Math.Sqrt(sigma);
             return distance;
