@@ -18,7 +18,7 @@ namespace RecommendationEngine
         #endregion
         //For pointType, 0 will signify noise, 1 a border point, and 2 a core point
         //For clID, "n" will signify which cluster the point is in
-        public Point(int inStID, double[] inFeatureArray)
+        public Point(int inPID, double[] inFeatureArray)
         {
             this.featureArray = inFeatureArray;
             this.PointID = inPID;
