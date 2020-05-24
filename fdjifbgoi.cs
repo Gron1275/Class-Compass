@@ -14,15 +14,14 @@ namespace RecommendationEngine
         public int? clID;
         public PointType? pointType;
         private double[] featureArray;
-        public double[] FeatureArray { get; set; }
-        public int StudentID { get; set; }
+        public int PointID { get; set; }
         #endregion
         //For pointType, 0 will signify noise, 1 a border point, and 2 a core point
         //For clID, "n" will signify which cluster the point is in
         public Point(int inStID, double[] inFeatureArray)
         {
             this.featureArray = inFeatureArray;
-            this.StudentID = inStID;
+            this.PointID = inPID;
             this.clID = null;
             this.pointType = null;
         }
