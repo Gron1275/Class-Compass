@@ -16,11 +16,9 @@ namespace RecommendationEngine
         public int? clID;
         public PointType? pointType;
         private double[] featureArray;
-        public double[] FeatureArray { get => this.featureArray; set => this.featureArray = value; }
+        public double[] FeatureArray { get; set; }
         public int StudentID { get; set; }
-
         #endregion
-
         //For pointType, 0 will signify noise, 1 a border point, and 2 a core point
         //For clID, "n" will signify which cluster the point is in
         public Point(int inStID, double[] inFeatureArray)
@@ -31,20 +29,5 @@ namespace RecommendationEngine
             this.pointType = null;
         }
         public string ShowArray() => string.Join(",", this.featureArray);
-        // if currentPoint.DistanceTo(point[i]) <= eps ...
-        /// <summary>
-        /// Check the distance between the objects array and the yPoint array
-        /// </summary>
-        /// <param name="yPoint"></param>
-        public double DistanceTo(Point yPoint)
-        {
-            double sigma = 0.0;
-            for (int i = 0; i < this.featureArray.Length; i++)
-            {
-                sigma += Math.Pow(this.featureArray[i] - yPoint.featureArray[i], 2);
-            }
-            double distance = Math.Sqrt(sigma);
-            return distance;
-        }
     }
 }
