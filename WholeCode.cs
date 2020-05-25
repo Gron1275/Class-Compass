@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
@@ -8,8 +8,7 @@ namespace wholeCodeNamespace
     public enum PointType
     {
         noise = 0,
-        border = 1, //Actually designate which points are border points the suggestions given to them from their cluster are weighted less than their interests 
-                    //b/c they are less similar so their recommendations should be based more on the item based part of the algo than the user similarity
+        border = 1, 
         core = 2
     };
     public class Point
@@ -18,16 +17,17 @@ namespace wholeCodeNamespace
         public int? clID;
         public PointType? pointType;
         public double[] FeatureArray { get; set; }
-        public int StudentID { get; set; }
+        public int PointID { get; set; }
+        private bool parity;
 
         #endregion
 
         //For pointType, 0 will signify noise, 1 a border point, and 2 a core point
         //For clID, "n" will signify which cluster the point is in
-        public Point(int inStID, double[] inFeatureArray)
+        public Point(int inPID, double[] inFeatureArray)
         {
             this.FeatureArray = inFeatureArray;
-            this.StudentID = inStID;
+            this.PointID = inPID;
             this.clID = null;
             this.pointType = null;
         }
@@ -46,6 +46,22 @@ namespace wholeCodeNamespace
             }
             double distance = Math.Sqrt(sigma);
             return distance;
+        }
+        public void ParityCheck()
+        {
+            double sigma = 0.0;
+            for (int i = 0; i < this.FeatureArray.Length; i++)
+            {
+                sigma += this.FeatureArray[i];
+            }
+            if (((int)sigma % 2) == 0)
+            {
+                this.parity = true;
+            }
+            else
+            {
+                this.parity = false;
+            }
         }
     }
     class ClusterLogger
@@ -207,6 +223,7 @@ namespace wholeCodeNamespace
                     tempList.Add(currentPoint);
                 }
             }
+            return tempList;
         }
         bool ExpandCluster(ref Point point, int ClusterID)
         {
