@@ -18,6 +18,7 @@
                     tempList.Add(currentPoint);
                 }
             }
+            return tempList;
         }
         bool ExpandCluster(ref Point point, int ClusterID)
         {
